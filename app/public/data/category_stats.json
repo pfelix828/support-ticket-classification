@@ -1,0 +1,62 @@
+{
+  "billing": {
+    "count": 14957,
+    "percentage": 15.0,
+    "description": "Refunds, charges, payment methods, invoices, credits"
+  },
+  "chatgpt_product": {
+    "count": 14744,
+    "percentage": 14.7,
+    "description": "ChatGPT features, errors, slow responses, image generation, search, memory"
+  },
+  "account_access": {
+    "count": 13685,
+    "percentage": 13.7,
+    "description": "Login issues, password reset, account recovery, phone verification"
+  },
+  "api_errors": {
+    "count": 11694,
+    "percentage": 11.7,
+    "description": "Rate limits, 429 errors, API key issues, latency, error codes"
+  },
+  "chatgpt_apps": {
+    "count": 8320,
+    "percentage": 8.3,
+    "description": "iOS, Android, macOS, Windows app issues, connected apps"
+  },
+  "account_management": {
+    "count": 7606,
+    "percentage": 7.6,
+    "description": "Members, orgs, projects, security, email changes"
+  },
+  "api_usage": {
+    "count": 7285,
+    "percentage": 7.3,
+    "description": "How-to, getting started, best practices, billing/usage dashboard"
+  },
+  "enterprise": {
+    "count": 6431,
+    "percentage": 6.4,
+    "description": "Enterprise, Business, Edu workspace setup, SSO, SCIM, admin"
+  },
+  "gpts": {
+    "count": 5460,
+    "percentage": 5.5,
+    "description": "Custom GPT creation, publishing, configuration, actions, troubleshooting"
+  },
+  "newer_products": {
+    "count": 4878,
+    "percentage": 4.9,
+    "description": "Sora, Codex, ChatGPT Atlas \u2014 newer product issues"
+  },
+  "privacy_policy": {
+    "count": 3414,
+    "percentage": 3.4,
+    "description": "Data privacy, training opt-out, data export, content policies"
+  },
+  "security": {
+    "count": 1526,
+    "percentage": 1.5,
+    "description": "API key safety, vulnerability reporting, fraud"
+  }
+}

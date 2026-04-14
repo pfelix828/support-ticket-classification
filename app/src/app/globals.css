@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* Design system — warm, muted, research-paper aesthetic (shared with marketing-measurement) */
+:root {
+  /* Backgrounds — warmer, more white than cream */
+  --background: #fcfbf7;
+  --background-secondary: #f5f4ee;
+  --background-tertiary: #eeedea;
+  --background-card: #ffffff;
+
+  /* Text — warm dark, not pure black */
+  --foreground: #1a1917;
+  --foreground-secondary: #4a4940;
+  --foreground-muted: #8a897e;
+
+  /* Accent — deep teal, sophisticated and research-y */
+  --accent: #3d6b7e;
+  --accent-hover: #346072;
+  --accent-muted: rgba(61, 107, 126, 0.10);
+
+  /* Semantic */
+  --success: #6aab8e;
+  --warning: #d4a04a;
+  --error: #c4705a;
+
+  /* Borders — subtle warm gray */
+  --border: #e5e4db;
+  --border-hover: #d4d3c8;
+
+  /* Chart colors — muted, desaturated
+     Designed for model comparison charts and confusion matrices */
+  --chart-1: #7dbda8;  /* soft teal/green — best performer */
+  --chart-2: #7ba3c9;  /* muted cornflower blue — second */
+  --chart-3: #c4705a;  /* terracotta — worst / error */
+  --chart-4: #9b8ec4;  /* dusty violet */
+  --chart-5: #d4a04a;  /* warm gold */
+  --chart-6: #c98a9e;  /* dusty rose */
+  --chart-baseline: #c9c8be;  /* warm gray for baseline */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-serif);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+}
+
+/* Headings use serif font — editorial/research paper feel */
+h1, h2, h3 {
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+}
+
+/* Bump small text sizes for readability */
+.text-xs {
+  font-size: 0.8125rem !important; /* 13px instead of 12px */
+  line-height: 1.45 !important;
+}
+
+/* Selection color — warm terracotta */
+::selection {
+  background: rgba(196, 112, 90, 0.2);
+  color: var(--foreground);
+}
