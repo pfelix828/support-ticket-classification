@@ -299,9 +299,10 @@ export default function ArchitecturePage() {
                   <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: "var(--background-secondary)", color: "var(--foreground-muted)" }}>offline, batch</span>
                 </div>
                 <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
-                  Use o1 to generate a high-quality training set. Because o1 uses chain-of-thought reasoning,
-                  it doesn&apos;t just output a label — it outputs <em>why</em> the ticket belongs to that category.
-                  This reasoning is the key: the student model learns the logic, not just the mapping.
+                  Use o1 to generate a high-quality training set. o1 uses chain-of-thought reasoning internally
+                  to produce more accurate labels than simpler models. In our experiment, only the final labels were
+                  used for training. A full production implementation could include the reasoning in training data,
+                  allowing the student to learn the logic, not just the mapping.
                 </p>
                 <div className="mt-3 p-3 rounded font-mono text-xs" style={{ backgroundColor: "var(--background-secondary)", color: "var(--foreground-secondary)" }}>
                   <p style={{ color: "var(--foreground-muted)" }}>// o1 output for a ticket near a category boundary:</p>
@@ -382,7 +383,7 @@ export default function ArchitecturePage() {
               },
               {
                 title: "Reasoning transfer",
-                detail: "BERT learns that Text A = Label B. A distilled 4o-mini learns why Text A = Label B. When a new product launches and unfamiliar tickets arrive, the reasoning generalizes — pattern matching doesn't.",
+                detail: "BERT learns that Text A = Label B. A distilled 4o-mini benefits from higher-quality labels produced by o1's reasoning. In a production pipeline with reasoning included in training, the student could learn why Text A = Label B — generalizing better to new ticket types.",
               },
               {
                 title: "Structured outputs",

@@ -21,7 +21,7 @@ export default function DistillationPage() {
             Distillation underperformed with only 855 training examples
           </p>
           <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-secondary)" }}>
-            The distilled model (o4-mini → GPT-4o-mini) achieved 69.9% F1 — below even zero-shot (77.7%).
+            The distilled model (o1-mini → GPT-4o-mini) achieved 69.9% F1 — below even zero-shot (77.7%).
             With only 855 labeled examples from the teacher model, there wasn&apos;t enough training signal for effective
             knowledge transfer. This result illustrates a key finding: distillation requires substantially more
             teacher-labeled data (typically 5K-50K examples) to outperform simpler methods. The pipeline and methodology

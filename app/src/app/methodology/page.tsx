@@ -129,9 +129,12 @@ export default function MethodologyPage() {
           <div className="mt-4">
             <h3 className="text-xs font-medium mb-2" style={{ color: "var(--foreground)" }}>Learning Curve Protocol</h3>
             <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
-              For the Volume vs. Method analysis, models are trained on random subsets of 100, 500, 1K, 5K,
+              For the Volume vs. Method analysis, models are trained on random subsets of 100, 500, 1K, 2.5K, 5K,
               and ~9.5K tickets (stratified sampling to preserve class distribution). Each is evaluated on the same
               held-out test set. This isolates the effect of training data volume from model capacity.
+              All subsamples use a single random seed (42). At low volumes (100-500 tickets), the particular
+              sample chosen can meaningfully affect F1 — crossover points should be interpreted as approximate,
+              not precise thresholds.
             </p>
           </div>
         </div>

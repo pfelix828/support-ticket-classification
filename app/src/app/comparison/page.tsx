@@ -305,14 +305,12 @@ export default function ComparisonPage() {
             The Crossover Point
           </h3>
           <p className="text-sm leading-relaxed" style={{ color: "var(--foreground-secondary)" }}>
-            At ~5K labeled tickets, the fine-tuned LLM overtakes all other methods.
-            At ~9.5K tickets, the fine-tuned GPT-4o-mini reaches 96.1% F1 — 7 points
-            above the best classical method.
-            Below that threshold, LLM few-shot and embeddings+XGBoost are better choices.
-            But this analysis assumes external API costs for LLM inference. At a company
-            like OpenAI, where LLM inference is an internal resource, the fine-tuned LLM
-            becomes viable even earlier — the cost column effectively drops to zero,
-            making it the obvious choice as soon as you have enough labeled data to fine-tune.
+            The fine-tuned LLM dominates from 500 tickets onward — at 88% F1 it already
+            beats every classical method trained on the full dataset. By 2.5K tickets it
+            reaches 94.4%, and at ~9.5K it hits 96.1%. The only reason to choose a classical
+            method is cost: fine-tuning requires API access or GPU infrastructure, while
+            embeddings+XGBoost runs on a CPU. At a company like OpenAI with internal LLM
+            access, the cost constraint disappears entirely.
           </p>
         </div>
       </section>
