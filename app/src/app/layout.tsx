@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
-import { Nav } from "@/components/layout/nav";
+import { Nav } from "../components/layout/nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
