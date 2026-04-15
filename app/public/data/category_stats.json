@@ -1,62 +1,50 @@
 {
   "billing": {
-    "count": 14957,
-    "percentage": 15.0,
-    "description": "Refunds, charges, payment methods, invoices, credits"
+    "count": 15833,
+    "percentage": 15.8
   },
   "chatgpt_product": {
-    "count": 14744,
-    "percentage": 14.7,
-    "description": "ChatGPT features, errors, slow responses, image generation, search, memory"
+    "count": 14946,
+    "percentage": 14.9
   },
   "account_access": {
-    "count": 13685,
-    "percentage": 13.7,
-    "description": "Login issues, password reset, account recovery, phone verification"
+    "count": 14163,
+    "percentage": 14.2
   },
   "api_errors": {
-    "count": 11694,
-    "percentage": 11.7,
-    "description": "Rate limits, 429 errors, API key issues, latency, error codes"
-  },
-  "chatgpt_apps": {
-    "count": 8320,
-    "percentage": 8.3,
-    "description": "iOS, Android, macOS, Windows app issues, connected apps"
-  },
-  "account_management": {
-    "count": 7606,
-    "percentage": 7.6,
-    "description": "Members, orgs, projects, security, email changes"
+    "count": 12071,
+    "percentage": 12.1
   },
   "api_usage": {
-    "count": 7285,
-    "percentage": 7.3,
-    "description": "How-to, getting started, best practices, billing/usage dashboard"
+    "count": 8066,
+    "percentage": 8.1
+  },
+  "chatgpt_apps": {
+    "count": 8010,
+    "percentage": 8.0
+  },
+  "account_management": {
+    "count": 7878,
+    "percentage": 7.9
   },
   "enterprise": {
-    "count": 6431,
-    "percentage": 6.4,
-    "description": "Enterprise, Business, Edu workspace setup, SSO, SCIM, admin"
+    "count": 5990,
+    "percentage": 6.0
   },
   "gpts": {
-    "count": 5460,
-    "percentage": 5.5,
-    "description": "Custom GPT creation, publishing, configuration, actions, troubleshooting"
+    "count": 4913,
+    "percentage": 4.9
   },
   "newer_products": {
-    "count": 4878,
-    "percentage": 4.9,
-    "description": "Sora, Codex, ChatGPT Atlas \u2014 newer product issues"
+    "count": 4080,
+    "percentage": 4.1
   },
   "privacy_policy": {
-    "count": 3414,
-    "percentage": 3.4,
-    "description": "Data privacy, training opt-out, data export, content policies"
+    "count": 3036,
+    "percentage": 3.0
   },
   "security": {
-    "count": 1526,
-    "percentage": 1.5,
-    "description": "API key safety, vulnerability reporting, fraud"
+    "count": 1014,
+    "percentage": 1.0
   }
 }

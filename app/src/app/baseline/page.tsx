@@ -12,33 +12,37 @@ import {
 } from "recharts";
 
 const perClassData = [
-  { category: "Billing", logreg: 0.87, xgboost: 0.91 },
-  { category: "ChatGPT", logreg: 0.82, xgboost: 0.86 },
-  { category: "Account", logreg: 0.80, xgboost: 0.85 },
-  { category: "API Errors", logreg: 0.85, xgboost: 0.89 },
-  { category: "Apps", logreg: 0.79, xgboost: 0.84 },
-  { category: "Acct Mgmt", logreg: 0.72, xgboost: 0.78 },
-  { category: "API Usage", logreg: 0.74, xgboost: 0.80 },
-  { category: "Enterprise", logreg: 0.81, xgboost: 0.86 },
-  { category: "GPTs", logreg: 0.77, xgboost: 0.83 },
-  { category: "New Products", logreg: 0.83, xgboost: 0.87 },
-  { category: "Privacy", logreg: 0.85, xgboost: 0.88 },
-  { category: "Security", logreg: 0.68, xgboost: 0.73 },
+  { category: "Billing", logreg: 0.9057, xgboost: 0.9 },
+  { category: "ChatGPT", logreg: 0.9032, xgboost: 0.8612 },
+  { category: "Account", logreg: 0.8606, xgboost: 0.8556 },
+  { category: "API Errors", logreg: 0.8398, xgboost: 0.8182 },
+  { category: "Apps", logreg: 0.903, xgboost: 0.8925 },
+  { category: "Acct Mgmt", logreg: 0.8075, xgboost: 0.7753 },
+  { category: "API Usage", logreg: 0.8009, xgboost: 0.7671 },
+  { category: "Enterprise", logreg: 0.8739, xgboost: 0.8603 },
+  { category: "GPTs", logreg: 0.9404, xgboost: 0.9585 },
+  { category: "New Products", logreg: 0.9595, xgboost: 0.9787 },
+  { category: "Privacy", logreg: 0.8662, xgboost: 0.8328 },
+  { category: "Security", logreg: 0.828, xgboost: 0.8556 },
 ];
 
 const topFeatures = [
-  { feature: "charged", weight: 2.31, category: "Billing" },
-  { feature: "refund", weight: 2.18, category: "Billing" },
-  { feature: "invoice", weight: 2.05, category: "Billing" },
-  { feature: "429", weight: 1.95, category: "API Errors" },
-  { feature: "rate limit", weight: 1.89, category: "API Errors" },
-  { feature: "log in", weight: 1.82, category: "Account Access" },
-  { feature: "password", weight: 1.76, category: "Account Access" },
-  { feature: "ios", weight: 1.71, category: "ChatGPT Apps" },
-  { feature: "sso", weight: 1.68, category: "Enterprise" },
-  { feature: "sora", weight: 1.92, category: "Newer Products" },
-  { feature: "gpt store", weight: 1.64, category: "GPTs" },
-  { feature: "privacy", weight: 1.58, category: "Privacy" },
+  { feature: "charged", weight: 5.78, category: "Billing" },
+  { feature: "card", weight: 5.79, category: "Billing" },
+  { feature: "login", weight: 4.85, category: "Account Access" },
+  { feature: "password", weight: 4.24, category: "Account Access" },
+  { feature: "api", weight: 6.03, category: "API Errors" },
+  { feature: "app", weight: 7.35, category: "ChatGPT Apps" },
+  { feature: "admin", weight: 5.89, category: "Enterprise" },
+  { feature: "codex", weight: 11.54, category: "Newer Products" },
+  { feature: "sora", weight: 7.41, category: "Newer Products" },
+  { feature: "gpt", weight: 14.61, category: "GPTs" },
+  { feature: "data", weight: 6.43, category: "Privacy" },
+  { feature: "key", weight: 6.74, category: "Security" },
+  { feature: "tokens", weight: 3.57, category: "API Usage" },
+  { feature: "org", weight: 5.28, category: "Acct Mgmt" },
+  { feature: "chatgpt", weight: 6.25, category: "ChatGPT" },
+  { feature: "image", weight: 3.95, category: "ChatGPT" },
 ];
 
 export default function BaselinePage() {
@@ -51,7 +55,7 @@ export default function BaselinePage() {
           </h1>
           <p className="mt-4 text-lg leading-relaxed max-w-2xl" style={{ color: "var(--foreground-secondary)" }}>
             The baseline every classification project should start with. If you
-            can&apos;t beat TF-IDF + XGBoost, you don&apos;t need deep learning.
+            can&apos;t beat TF-IDF + logistic regression, you don&apos;t need deep learning.
           </p>
         </div>
       </section>
@@ -70,7 +74,7 @@ export default function BaselinePage() {
             </p>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>84%</p>
+                <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>87.4%</p>
                 <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>F1 (macro)</p>
               </div>
               <div>
@@ -86,11 +90,10 @@ export default function BaselinePage() {
             <p className="text-xs leading-relaxed mb-3" style={{ color: "var(--foreground-muted)" }}>
               Same TF-IDF features, but XGBoost as the classifier. Handles feature interactions
               better, built-in feature importance, handles class imbalance with sample weights.
-              The stronger baseline.
             </p>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>88%</p>
+                <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>86.3%</p>
                 <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>F1 (macro)</p>
               </div>
               <div>
@@ -109,7 +112,7 @@ export default function BaselinePage() {
             Per-Class F1 Score
           </h2>
           <p className="text-xs mb-6" style={{ color: "var(--foreground-muted)" }}>
-            XGBoost outperforms logistic regression across all categories, especially on rarer classes like Security and Account Management.
+            Logistic regression outperforms XGBoost on macro F1 (87.4% vs 86.3%), though XGBoost edges ahead on rare categories like GPTs, Newer Products, and Security.
           </p>
           <ResponsiveContainer width="100%" height={360}>
             <BarChart data={perClassData} margin={{ top: 5, right: 30, left: 10, bottom: 60 }}>
@@ -173,10 +176,11 @@ export default function BaselinePage() {
             Key Takeaways
           </h3>
           <ul className="space-y-2 text-sm" style={{ color: "var(--foreground-secondary)" }}>
-            <li>XGBoost gains 4 points over logistic regression — worth the switch for essentially zero added complexity.</li>
-            <li>Both methods struggle with rare classes (Security: 68-73%) and semantically similar categories (Account Access vs. Account Management).</li>
+            <li>Logistic regression beats XGBoost on macro F1 (87.4% vs 86.3%) — the simpler model wins overall, a useful reminder to always check.</li>
+            <li>XGBoost has an edge on rare categories (Newer Products: 97.9% vs 96.0%, GPTs: 95.9% vs 94.0%, Security: 85.6% vs 82.8%) where tree-based feature interactions help.</li>
+            <li>Both methods struggle most with semantically similar categories (Account Management: 77-81%, API Usage: 77-80%).</li>
             <li>Full interpretability: you can explain every prediction by pointing to specific words. This matters for compliance and debugging.</li>
-            <li>At 100K tickets, this is a strong production baseline. The question is: does anything else justify the added complexity?</li>
+            <li>At 87.4% macro F1 with sub-millisecond latency, this is already a strong production baseline. The question is: does anything else justify the added complexity?</li>
           </ul>
         </div>
       </section>

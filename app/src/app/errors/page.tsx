@@ -1,37 +1,33 @@
 export default function ErrorsPage() {
   const confusionPairs = [
-    { actual: "Account Access", predicted: "Account Mgmt", rate: "12%", why: "Both involve accounts. 'I need to change my account settings' vs 'I can't access my account' — the boundary is subtle." },
-    { actual: "API Errors", predicted: "API Usage", rate: "8%", why: "'How do I fix 429 errors?' is technically a question (usage) about an error. Intent is ambiguous." },
-    { actual: "Billing", predicted: "Account Mgmt", rate: "6%", why: "'How do I update my payment method?' touches both billing and account management." },
-    { actual: "ChatGPT Apps", predicted: "ChatGPT Product", rate: "11%", why: "'ChatGPT isn't working' — is it the app or the product? Without device context, both are plausible." },
-    { actual: "Enterprise", predicted: "Account Mgmt", rate: "9%", why: "'How do I add users to my workspace?' — Enterprise workspace management vs general account management." },
-    { actual: "GPTs", predicted: "API Errors", rate: "7%", why: "'My GPT action returns a 429 error' — is it a GPT problem or an API problem?" },
+    { actual: "API Usage", predicted: "API Errors", rate: "10–12%", why: "'How do I fix 429 errors?' is technically a question (usage) about an error. Every model confuses these — the boundary between asking about API behavior and reporting an API problem is genuinely ambiguous." },
+    { actual: "API Errors", predicted: "API Usage", rate: "5–11%", why: "The reverse direction is nearly as bad. 'My API call returns unexpected results' could be a usage question or an error report depending on intent." },
+    { actual: "Account Mgmt", predicted: "Account Access", rate: "7%", why: "'I need to change my account settings but can't log in' — both categories involve accounts. The distinction between managing an account and accessing it blurs constantly." },
+    { actual: "Account Mgmt", predicted: "Enterprise", rate: "5–8%", why: "'How do I add users to my workspace?' — enterprise workspace management vs general account management. XGBoost struggles most here (7.8%)." },
+    { actual: "Security", predicted: "API Errors", rate: "5%", why: "Security tickets mentioning API keys or authentication errors get pulled toward API categories. Only 98 security tickets in the dataset makes this harder." },
+    { actual: "Security", predicted: "Account Mgmt", rate: "11%", why: "Embeddings + XGBoost confuses these most. 'Someone accessed my account' is both a security concern and an account issue." },
   ];
 
   const methodErrorProfiles = [
     {
+      method: "TF-IDF + Logistic Regression",
+      strength: "Clear keyword signals (e.g., 'refund' → Billing). Fastest to train and interpret.",
+      weakness: "Fails when the same words appear across categories ('account', 'access', 'settings'). Worst on API Usage → API Errors (11.6%).",
+    },
+    {
       method: "TF-IDF + XGBoost",
-      strength: "Clear keyword signals (e.g., 'refund' → Billing)",
-      weakness: "Fails when the same words appear across categories ('account', 'access', 'settings')",
-      ambiguous_f1: "62%",
+      strength: "Boosting captures feature interactions that logistic regression misses.",
+      weakness: "Both API confusion directions are bad (11.1% and 10.8%). Struggles with Account Mgmt → Enterprise (7.8%).",
     },
     {
       method: "Embeddings + XGBoost",
-      strength: "Semantic similarity helps with paraphrasing. Metadata disambiguates.",
-      weakness: "Still confused by tickets where text is ambiguous and metadata doesn't help",
-      ambiguous_f1: "71%",
+      strength: "Semantic similarity helps with paraphrasing. Metadata features disambiguate some edge cases.",
+      weakness: "Security → Account Mgmt is its worst pair (11.2%). Embeddings alone can't distinguish overlapping intents.",
     },
     {
       method: "Fine-Tuned BERT",
-      strength: "Learns subtle contextual cues from fine-tuning",
-      weakness: "No metadata. Purely text-based, misses customer tier signals.",
-      ambiguous_f1: "76%",
-    },
-    {
-      method: "Fine-Tuned LLM",
-      strength: "Best at disambiguating — can reason about intent, not just pattern match",
-      weakness: "Occasional overconfidence on edge cases. Sometimes invents a rationale.",
-      ambiguous_f1: "84%",
+      strength: "Learns subtle contextual cues from fine-tuning on domain text.",
+      weakness: "Pending — not yet trained. Expected to improve on semantic confusion pairs.",
     },
   ];
 
@@ -88,16 +84,13 @@ export default function ErrorsPage() {
             Error Profiles by Method
           </h2>
           <p className="text-xs mb-4" style={{ color: "var(--foreground-muted)" }}>
-            How each method handles the 10% of ambiguous/multi-intent tickets.
+            Each method has a distinct error signature — where it fails reveals what it actually learns.
           </p>
           <div className="grid grid-cols-2 gap-3">
             {methodErrorProfiles.map((m) => (
               <div key={m.method} className="rounded-lg border p-4" style={{ borderColor: "var(--border)" }}>
-                <div className="flex items-center justify-between mb-2">
+                <div className="mb-2">
                   <h3 className="text-sm font-medium" style={{ color: "var(--foreground)" }}>{m.method}</h3>
-                  <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: "var(--accent-muted)", color: "var(--accent)" }}>
-                    {m.ambiguous_f1} on ambiguous
-                  </span>
                 </div>
                 <div className="space-y-2 text-xs">
                   <div>
@@ -122,7 +115,8 @@ export default function ErrorsPage() {
             The Rare Category Problem
           </h2>
           <p className="text-xs mb-4 leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
-            Security tickets make up only 1.5% of the dataset. Every method struggles here — but they struggle differently.
+            Security tickets make up only 1.5% of the dataset. Despite this, all three trained models handle rare categories
+            better than you might expect — but the error patterns differ.
           </p>
           <div className="overflow-hidden rounded-lg border" style={{ borderColor: "var(--border)" }}>
             <table className="w-full text-sm">
@@ -136,10 +130,10 @@ export default function ErrorsPage() {
               </thead>
               <tbody>
                 {[
-                  { method: "TF-IDF + XGBoost", security: "73%", privacy: "82%", newer: "84%" },
-                  { method: "Embeddings + XGBoost", security: "80%", privacy: "86%", newer: "88%" },
-                  { method: "Fine-Tuned BERT", security: "82%", privacy: "88%", newer: "89%" },
-                  { method: "Fine-Tuned LLM", security: "89%", privacy: "93%", newer: "94%" },
+                  { method: "TF-IDF + LogReg", security: "82.8%", privacy: "86.6%", newer: "96.0%" },
+                  { method: "TF-IDF + XGBoost", security: "85.6%", privacy: "83.3%", newer: "97.9%" },
+                  { method: "Emb + XGBoost", security: "85.7%", privacy: "88.2%", newer: "96.7%" },
+                  { method: "Fine-Tuned BERT", security: "—", privacy: "—", newer: "—" },
                 ].map((row, i) => (
                   <tr key={row.method} style={{ borderTop: "1px solid var(--border)", backgroundColor: i % 2 === 0 ? "var(--background-card)" : "var(--background-secondary)" }}>
                     <td className="px-5 py-2.5 text-xs font-medium" style={{ color: "var(--foreground)" }}>{row.method}</td>
@@ -152,8 +146,8 @@ export default function ErrorsPage() {
             </table>
           </div>
           <p className="text-xs mt-3" style={{ color: "var(--foreground-muted)" }}>
-            The fine-tuned LLM&apos;s advantage is largest on rare categories (+16 points over XGBoost on Security).
-            Transfer learning from pre-training compensates for limited training examples.
+            Embeddings + XGBoost leads on Privacy (88.2%) while XGBoost leads on Newer Products (97.9%).
+            Security is the tightest race — all three models land between 82.8% and 85.7%. BERT results pending.
           </p>
         </div>
       </section>
@@ -165,9 +159,9 @@ export default function ErrorsPage() {
             Key Takeaways
           </h3>
           <ul className="space-y-2 text-sm" style={{ color: "var(--foreground-secondary)" }}>
-            <li>The hardest errors are semantic, not lexical. &ldquo;Account Access&rdquo; vs &ldquo;Account Management&rdquo; is a real ambiguity, not a model failure.</li>
-            <li>Fine-tuned LLMs handle ambiguity best (84% on ambiguous tickets vs 62% for XGBoost) — they can reason about intent.</li>
-            <li>Rare categories are where LLM fine-tuning shines most. The gap widens as class frequency drops.</li>
+            <li>The hardest errors are semantic, not lexical. API Usage vs API Errors is the top confusion pair across every model (10–12%), because the boundary is genuinely ambiguous.</li>
+            <li>Each model has a distinct error signature. LogReg struggles most on API confusion; Embeddings + XGBoost has a unique Security → Account Mgmt problem (11.2%) that other models avoid.</li>
+            <li>Rare categories perform better than expected. Security F1 ranges from 82.8% to 85.7% despite only 98 training examples — careful feature engineering matters more than raw volume.</li>
             <li>The production answer: don&apos;t try to eliminate all errors. Route low-confidence predictions to human agents and use their decisions as training data.</li>
           </ul>
         </div>

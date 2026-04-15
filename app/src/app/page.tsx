@@ -19,56 +19,56 @@ const sections = [
     icon: Database,
     title: "Data Explorer",
     description:
-      "100,000 synthetic support tickets modeled after OpenAI's help center taxonomy. Browse examples, see class distributions, and understand the classification challenge.",
-  },
-  {
-    href: "/baseline",
-    icon: BarChart3,
-    title: "TF-IDF + Logistic / XGBoost",
-    description:
-      "The baseline that every ML project should start with. TF-IDF features with logistic regression and XGBoost — fast, interpretable, and surprisingly competitive.",
-  },
-  {
-    href: "/embeddings",
-    icon: Scan,
-    title: "Embeddings + XGBoost",
-    description:
-      "BERT embeddings as features for XGBoost. Combines semantic understanding with the ability to incorporate structured metadata like customer tier and account age.",
-  },
-  {
-    href: "/bert",
-    icon: Brain,
-    title: "Fine-Tuned BERT",
-    description:
-      "End-to-end fine-tuning on the ticket text. Strong accuracy, but how much does it gain over the hybrid approach?",
+      "12,091 synthetic support tickets modeled after OpenAI's help center taxonomy. Browse examples, see class distributions, and understand the classification challenge.",
   },
   {
     href: "/llm",
     icon: Sparkles,
     title: "LLM Zero/Few-Shot",
     description:
-      "No training data needed — just a well-crafted prompt. How close can prompt engineering get to supervised methods?",
+      "No training data needed — just a well-crafted prompt. The starting point when you have no labeled data. ~78% F1 (zero-shot).",
+  },
+  {
+    href: "/baseline",
+    icon: BarChart3,
+    title: "TF-IDF + Logistic / XGBoost",
+    description:
+      "The baseline that every ML project should start with. TF-IDF features with logistic regression and XGBoost — fast, interpretable, and surprisingly competitive. 86-87% F1.",
+  },
+  {
+    href: "/embeddings",
+    icon: Scan,
+    title: "Embeddings + XGBoost",
+    description:
+      "BERT embeddings as features for XGBoost. Combines semantic understanding with structured metadata like customer tier and account age. 89% F1.",
+  },
+  {
+    href: "/bert",
+    icon: Brain,
+    title: "Fine-Tuned BERT",
+    description:
+      "End-to-end fine-tuning on ticket text. Gains over the hybrid approach are narrow — and you lose metadata integration. 92% F1 (projected).",
   },
   {
     href: "/finetune",
     icon: Cpu,
     title: "Fine-Tuned LLM",
     description:
-      "The main event. Fine-tuning a smaller LLM for classification. At a company with internal LLM access, this changes the cost calculus entirely.",
+      "Fine-tuning GPT-4o-mini on ~9.5K tickets. The clear winner at 96.1% F1 — 7 points above the best classical method. At a company with internal LLM access, the cost calculus changes entirely.",
   },
   {
     href: "/distillation",
     icon: Zap,
     title: "Distillation (o1 → 4o-mini)",
     description:
-      "The OpenAI-specific endgame. Use o1 as a reasoning teacher to generate high-quality labels with chain-of-thought, then distill into GPT-4o-mini for production. Why this beats every other method when you have internal model access.",
+      "Use o1 as a reasoning teacher, distill into GPT-4o-mini. With only 855 teacher labels, 69.9% F1 — proving distillation needs scale. The architecture is sound; the data volume wasn't.",
   },
   {
     href: "/comparison",
     icon: GitCompare,
     title: "Volume vs. Method",
     description:
-      "How does accuracy change as labeled data grows from 100 to 100K tickets? Learning curves reveal where each method's advantage kicks in — and which one you should use at your scale.",
+      "How does accuracy change as labeled data grows from 100 to ~10K tickets? Learning curves reveal where each method's advantage kicks in — and which one you should use at your scale.",
   },
   {
     href: "/errors",
@@ -115,7 +115,7 @@ export default function Home() {
             But the right classification method depends on how many labeled
             tickets you have. This project compares seven approaches — from
             TF-IDF baselines to fine-tuned LLMs — across data volumes from 100
-            to 100K tickets, on synthetic data modeled after OpenAI&apos;s help
+            to ~10K tickets, on synthetic data modeled after OpenAI&apos;s help
             center.
           </p>
         </div>
@@ -144,13 +144,13 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <p className="text-2xl font-semibold" style={{ color: "var(--accent)" }}>100K</p>
+              <p className="text-2xl font-semibold" style={{ color: "var(--accent)" }}>12K</p>
               <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>
                 Synthetic tickets with realistic language, ambiguity, and class imbalance
               </p>
             </div>
             <div>
-              <p className="text-2xl font-semibold" style={{ color: "var(--accent)" }}>8</p>
+              <p className="text-2xl font-semibold" style={{ color: "var(--accent)" }}>7</p>
               <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>
                 Methods compared — from logistic regression to o1-distilled GPT-4o-mini
               </p>

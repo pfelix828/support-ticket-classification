@@ -1,0 +1,717 @@
+{
+  "logreg": {
+    "method": "TF-IDF + Logistic Regression",
+    "f1_macro": 0.8741,
+    "f1_weighted": 0.8733,
+    "latency_ms": 0.001,
+    "train_time_s": 0.5,
+    "per_class_f1": {
+      "account_access": 0.8606,
+      "account_management": 0.8075,
+      "api_errors": 0.8398,
+      "api_usage": 0.8009,
+      "billing": 0.9057,
+      "chatgpt_apps": 0.903,
+      "chatgpt_product": 0.9032,
+      "enterprise": 0.8739,
+      "gpts": 0.9404,
+      "newer_products": 0.9595,
+      "privacy_policy": 0.8662,
+      "security": 0.828
+    },
+    "top_features": {
+      "account_access": [
+        {
+          "feature": "login",
+          "weight": 4.848
+        },
+        {
+          "feature": "account",
+          "weight": 4.47
+        },
+        {
+          "feature": "vpn",
+          "weight": 4.272
+        },
+        {
+          "feature": "verification",
+          "weight": 4.254
+        },
+        {
+          "feature": "password",
+          "weight": 4.237
+        }
+      ],
+      "account_management": [
+        {
+          "feature": "org",
+          "weight": 5.282
+        },
+        {
+          "feature": "name",
+          "weight": 3.861
+        },
+        {
+          "feature": "organization",
+          "weight": 3.468
+        },
+        {
+          "feature": "email",
+          "weight": 3.333
+        },
+        {
+          "feature": "one",
+          "weight": 2.845
+        }
+      ],
+      "api_errors": [
+        {
+          "feature": "api",
+          "weight": 6.026
+        },
+        {
+          "feature": "quota",
+          "weight": 3.458
+        },
+        {
+          "feature": "endpoint",
+          "weight": 3.291
+        },
+        {
+          "feature": "errors",
+          "weight": 2.89
+        },
+        {
+          "feature": "json",
+          "weight": 2.884
+        }
+      ],
+      "api_usage": [
+        {
+          "feature": "api",
+          "weight": 5.562
+        },
+        {
+          "feature": "tokens",
+          "weight": 3.565
+        },
+        {
+          "feature": "streaming",
+          "weight": 3.364
+        },
+        {
+          "feature": "sdk",
+          "weight": 3.207
+        },
+        {
+          "feature": "your api",
+          "weight": 3.037
+        }
+      ],
+      "billing": [
+        {
+          "feature": "card",
+          "weight": 5.786
+        },
+        {
+          "feature": "charged",
+          "weight": 5.777
+        },
+        {
+          "feature": "invoice",
+          "weight": 4.709
+        },
+        {
+          "feature": "charge",
+          "weight": 4.663
+        },
+        {
+          "feature": "credits",
+          "weight": 4.028
+        }
+      ],
+      "chatgpt_apps": [
+        {
+          "feature": "app",
+          "weight": 7.348
+        },
+        {
+          "feature": "chatgpt",
+          "weight": 5.526
+        },
+        {
+          "feature": "the app",
+          "weight": 3.689
+        },
+        {
+          "feature": "widget",
+          "weight": 3.317
+        },
+        {
+          "feature": "installer",
+          "weight": 3.002
+        }
+      ],
+      "chatgpt_product": [
+        {
+          "feature": "chatgpt",
+          "weight": 6.247
+        },
+        {
+          "feature": "image",
+          "weight": 3.951
+        },
+        {
+          "feature": "mode",
+          "weight": 3.493
+        },
+        {
+          "feature": "conversation",
+          "weight": 3.395
+        },
+        {
+          "feature": "temporary",
+          "weight": 2.932
+        }
+      ],
+      "enterprise": [
+        {
+          "feature": "admin",
+          "weight": 5.891
+        },
+        {
+          "feature": "enterprise",
+          "weight": 4.888
+        },
+        {
+          "feature": "we",
+          "weight": 4.502
+        },
+        {
+          "feature": "saml",
+          "weight": 4.185
+        },
+        {
+          "feature": "scim",
+          "weight": 4.068
+        }
+      ],
+      "gpts": [
+        {
+          "feature": "gpt",
+          "weight": 14.612
+        },
+        {
+          "feature": "my gpt",
+          "weight": 5.583
+        },
+        {
+          "feature": "action",
+          "weight": 3.467
+        },
+        {
+          "feature": "actions",
+          "weight": 3.381
+        },
+        {
+          "feature": "gpt for",
+          "weight": 2.994
+        }
+      ],
+      "newer_products": [
+        {
+          "feature": "codex",
+          "weight": 11.541
+        },
+        {
+          "feature": "atlas",
+          "weight": 9.956
+        },
+        {
+          "feature": "sora",
+          "weight": 7.405
+        },
+        {
+          "feature": "video",
+          "weight": 5.961
+        },
+        {
+          "feature": "videos",
+          "weight": 4.343
+        }
+      ],
+      "privacy_policy": [
+        {
+          "feature": "data",
+          "weight": 6.431
+        },
+        {
+          "feature": "your",
+          "weight": 4.487
+        },
+        {
+          "feature": "you",
+          "weight": 4.464
+        },
+        {
+          "feature": "privacy",
+          "weight": 3.979
+        },
+        {
+          "feature": "soc",
+          "weight": 3.605
+        }
+      ],
+      "security": [
+        {
+          "feature": "key",
+          "weight": 6.736
+        },
+        {
+          "feature": "api",
+          "weight": 4.656
+        },
+        {
+          "feature": "api key",
+          "weight": 4.025
+        },
+        {
+          "feature": "ip",
+          "weight": 3.945
+        },
+        {
+          "feature": "keys",
+          "weight": 3.68
+        }
+      ]
+    },
+    "confusion_pairs": [
+      {
+        "actual": "api_usage",
+        "predicted": "api_errors",
+        "count": 25,
+        "rate": 0.1157
+      },
+      {
+        "actual": "account_management",
+        "predicted": "account_access",
+        "count": 14,
+        "rate": 0.0729
+      },
+      {
+        "actual": "api_errors",
+        "predicted": "api_usage",
+        "count": 16,
+        "rate": 0.0667
+      },
+      {
+        "actual": "security",
+        "predicted": "api_errors",
+        "count": 5,
+        "rate": 0.051
+      },
+      {
+        "actual": "security",
+        "predicted": "api_usage",
+        "count": 5,
+        "rate": 0.051
+      },
+      {
+        "actual": "account_management",
+        "predicted": "enterprise",
+        "count": 9,
+        "rate": 0.0469
+      },
+      {
+        "actual": "security",
+        "predicted": "account_management",
+        "count": 4,
+        "rate": 0.0408
+      },
+      {
+        "actual": "chatgpt_apps",
+        "predicted": "chatgpt_product",
+        "count": 7,
+        "rate": 0.0376
+      },
+      {
+        "actual": "enterprise",
+        "predicted": "account_access",
+        "count": 7,
+        "rate": 0.0326
+      },
+      {
+        "actual": "security",
+        "predicted": "account_access",
+        "count": 3,
+        "rate": 0.0306
+      }
+    ]
+  },
+  "xgboost": {
+    "method": "TF-IDF + XGBoost",
+    "f1_macro": 0.863,
+    "f1_weighted": 0.8595,
+    "latency_ms": 0.008,
+    "train_time_s": 38.2,
+    "per_class_f1": {
+      "account_access": 0.8556,
+      "account_management": 0.7753,
+      "api_errors": 0.8182,
+      "api_usage": 0.7671,
+      "billing": 0.9,
+      "chatgpt_apps": 0.8925,
+      "chatgpt_product": 0.8612,
+      "enterprise": 0.8603,
+      "gpts": 0.9585,
+      "newer_products": 0.9787,
+      "privacy_policy": 0.8328,
+      "security": 0.8556
+    },
+    "top_features": [
+      {
+        "feature": "deep research",
+        "importance": 0.0224
+      },
+      {
+        "feature": "custom instructions",
+        "importance": 0.0145
+      },
+      {
+        "feature": "gpt",
+        "importance": 0.0138
+      },
+      {
+        "feature": "sora",
+        "importance": 0.0109
+      },
+      {
+        "feature": "charged",
+        "importance": 0.0108
+      },
+      {
+        "feature": "net 30",
+        "importance": 0.0103
+      },
+      {
+        "feature": "codex",
+        "importance": 0.0096
+      },
+      {
+        "feature": "endpoint",
+        "importance": 0.0082
+      },
+      {
+        "feature": "card",
+        "importance": 0.0075
+      },
+      {
+        "feature": "app",
+        "importance": 0.0075
+      },
+      {
+        "feature": "org",
+        "importance": 0.0072
+      },
+      {
+        "feature": "atlas",
+        "importance": 0.007
+      },
+      {
+        "feature": "charge",
+        "importance": 0.0062
+      },
+      {
+        "feature": "invoice",
+        "importance": 0.0061
+      },
+      {
+        "feature": "quota",
+        "importance": 0.0055
+      },
+      {
+        "feature": "sdk",
+        "importance": 0.0051
+      },
+      {
+        "feature": "name",
+        "importance": 0.0048
+      },
+      {
+        "feature": "scheduled",
+        "importance": 0.0047
+      },
+      {
+        "feature": "access my",
+        "importance": 0.0046
+      },
+      {
+        "feature": "password",
+        "importance": 0.0045
+      }
+    ],
+    "confusion_pairs": [
+      {
+        "actual": "api_usage",
+        "predicted": "api_errors",
+        "count": 24,
+        "rate": 0.1111
+      },
+      {
+        "actual": "api_errors",
+        "predicted": "api_usage",
+        "count": 26,
+        "rate": 0.1083
+      },
+      {
+        "actual": "account_management",
+        "predicted": "enterprise",
+        "count": 15,
+        "rate": 0.0781
+      },
+      {
+        "actual": "account_management",
+        "predicted": "account_access",
+        "count": 14,
+        "rate": 0.0729
+      },
+      {
+        "actual": "privacy_policy",
+        "predicted": "api_usage",
+        "count": 11,
+        "rate": 0.0671
+      },
+      {
+        "actual": "security",
+        "predicted": "api_errors",
+        "count": 6,
+        "rate": 0.0612
+      },
+      {
+        "actual": "security",
+        "predicted": "account_management",
+        "count": 5,
+        "rate": 0.051
+      },
+      {
+        "actual": "chatgpt_apps",
+        "predicted": "chatgpt_product",
+        "count": 9,
+        "rate": 0.0484
+      },
+      {
+        "actual": "privacy_policy",
+        "predicted": "enterprise",
+        "count": 7,
+        "rate": 0.0427
+      },
+      {
+        "actual": "account_management",
+        "predicted": "api_usage",
+        "count": 8,
+        "rate": 0.0417
+      }
+    ]
+  },
+  "emb_xgboost": {
+    "method": "Embeddings + XGBoost",
+    "f1_macro": 0.8914,
+    "f1_weighted": 0.8912,
+    "f1_ambiguous": null,
+    "latency_ms": 0.835,
+    "train_time_s": 22.7,
+    "per_class_f1": {
+      "account_access": 0.9085,
+      "account_management": 0.8053,
+      "api_errors": 0.8618,
+      "api_usage": 0.8504,
+      "billing": 0.9184,
+      "chatgpt_apps": 0.9286,
+      "chatgpt_product": 0.8862,
+      "enterprise": 0.8853,
+      "gpts": 0.9474,
+      "newer_products": 0.9668,
+      "privacy_policy": 0.8818,
+      "security": 0.8571
+    },
+    "feature_importance": {
+      "embedding_pct": 99.8,
+      "metadata": {
+        "customer_tier": 0.1,
+        "account_age_days": 0.1,
+        "previous_tickets": 0.1,
+        "urgency": 0.0
+      }
+    },
+    "confusion_pairs": [
+      {
+        "actual": "security",
+        "predicted": "account_management",
+        "count": 11,
+        "rate": 0.1122
+      },
+      {
+        "actual": "api_usage",
+        "predicted": "api_errors",
+        "count": 22,
+        "rate": 0.1019
+      },
+      {
+        "actual": "account_management",
+        "predicted": "account_access",
+        "count": 12,
+        "rate": 0.0625
+      },
+      {
+        "actual": "api_errors",
+        "predicted": "api_usage",
+        "count": 12,
+        "rate": 0.05
+      },
+      {
+        "actual": "account_management",
+        "predicted": "enterprise",
+        "count": 9,
+        "rate": 0.0469
+      },
+      {
+        "actual": "privacy_policy",
+        "predicted": "chatgpt_product",
+        "count": 7,
+        "rate": 0.0427
+      },
+      {
+        "actual": "security",
+        "predicted": "api_errors",
+        "count": 4,
+        "rate": 0.0408
+      },
+      {
+        "actual": "chatgpt_apps",
+        "predicted": "account_access",
+        "count": 7,
+        "rate": 0.0376
+      },
+      {
+        "actual": "enterprise",
+        "predicted": "account_management",
+        "count": 7,
+        "rate": 0.0326
+      },
+      {
+        "actual": "chatgpt_apps",
+        "predicted": "chatgpt_product",
+        "count": 6,
+        "rate": 0.0323
+      }
+    ]
+  },
+  "learning_curves": {
+    "volumes": [
+      100,
+      500,
+      1000,
+      5000,
+      9557
+    ],
+    "logreg": [
+      0.0803,
+      0.4505,
+      0.6558,
+      0.8297,
+      0.8741
+    ],
+    "xgboost": [
+      0.2508,
+      0.529,
+      0.6389,
+      0.8195,
+      0.863
+    ]
+  },
+  "zero_shot": {
+    "method": "GPT-4o-mini Zero-Shot",
+    "f1_macro": 0.7773,
+    "f1_weighted": 0.7723,
+    "per_class_f1": {
+      "account_access": 0.7847,
+      "account_management": 0.6649,
+      "api_errors": 0.6975,
+      "api_usage": 0.6758,
+      "billing": 0.8472,
+      "chatgpt_apps": 0.8679,
+      "chatgpt_product": 0.7917,
+      "enterprise": 0.7309,
+      "gpts": 0.8542,
+      "newer_products": 0.7942,
+      "privacy_policy": 0.7832,
+      "security": 0.835
+    },
+    "unknown_count": 1,
+    "eval_size": 2390
+  },
+  "few_shot": {
+    "method": "GPT-4o-mini Few-Shot",
+    "f1_macro": 0.7391,
+    "f1_weighted": 0.7612,
+    "per_class_f1": {
+      "account_access": 0.875,
+      "account_management": 0.6667,
+      "api_errors": 0.4828,
+      "api_usage": 0.5714,
+      "billing": 0.9474,
+      "chatgpt_apps": 1.0,
+      "chatgpt_product": 0.4286,
+      "enterprise": 0.8125,
+      "gpts": 0.8889,
+      "newer_products": 0.7059,
+      "privacy_policy": 0.8235,
+      "security": 0.6667
+    },
+    "unknown_count": 2267
+  },
+  "distilled": {
+    "method": "GPT-4o-mini Distillation FT",
+    "f1_macro": 0.6993,
+    "f1_weighted": 0.7025,
+    "per_class_f1": {
+      "account_access": 0.8015,
+      "account_management": 0.6069,
+      "api_errors": 0.6348,
+      "api_usage": 0.5792,
+      "billing": 0.7733,
+      "chatgpt_apps": 0.8036,
+      "chatgpt_product": 0.7546,
+      "enterprise": 0.716,
+      "gpts": 0.8118,
+      "newer_products": 0.3805,
+      "privacy_policy": 0.805,
+      "security": 0.7249
+    },
+    "unknown_count": 2,
+    "eval_size": 2390,
+    "model_id": "ft:gpt-4o-mini-2024-07-18:pfelix:distilled:DUlToc5G"
+  },
+  "finetuned": {
+    "method": "GPT-4o-mini Standard FT",
+    "f1_macro": 0.9608,
+    "f1_weighted": 0.9602,
+    "per_class_f1": {
+      "account_access": 0.9659,
+      "account_management": 0.9247,
+      "api_errors": 0.9522,
+      "api_usage": 0.9302,
+      "billing": 0.9688,
+      "chatgpt_apps": 0.9731,
+      "chatgpt_product": 0.9682,
+      "enterprise": 0.9569,
+      "gpts": 0.9806,
+      "newer_products": 0.9794,
+      "privacy_policy": 0.9699,
+      "security": 0.96
+    },
+    "unknown_count": 2,
+    "eval_size": 2390,
+    "model_id": "ft:gpt-4o-mini-2024-07-18:pfelix::DUl68LoY"
+  }
+}

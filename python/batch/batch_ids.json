@@ -1,0 +1,6 @@
+{
+  "zero_shot": "batch_69dfb69ba5c88190917c9b3193532959",
+  "few_shot": "batch_69dfb69da4f48190985e2a54fd02a94a",
+  "finetuned": "batch_69dfb69f29948190a3004906012f8210",
+  "distilled": "batch_69dfb6a0a3a08190bf4fb7d581909bff"
+}

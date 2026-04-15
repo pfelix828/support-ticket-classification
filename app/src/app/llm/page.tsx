@@ -25,7 +25,7 @@ export default function LlmPage() {
             </p>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>68%</p>
+                <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>77.7%</p>
                 <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>F1 (macro)</p>
               </div>
               <div>
@@ -42,14 +42,17 @@ export default function LlmPage() {
             </p>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>76%</p>
-                <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>F1 (macro)</p>
+                <p className="text-lg font-semibold" style={{ color: "var(--foreground-muted)" }}>~82-85%</p>
+                <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>F1 (macro) <span className="italic">(projected)</span></p>
               </div>
               <div>
                 <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>~800ms</p>
                 <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>Latency</p>
               </div>
             </div>
+            <p className="text-xs mt-2 italic" style={{ color: "var(--foreground-muted)" }}>
+              Fresh batch evaluation in progress. Prior run had a mapping bug; projected range based on zero-shot baseline + typical few-shot lift.
+            </p>
           </div>
         </div>
       </section>
@@ -145,8 +148,8 @@ export default function LlmPage() {
             Key Takeaways
           </h3>
           <ul className="space-y-2 text-sm" style={{ color: "var(--foreground-secondary)" }}>
-            <li>Zero-shot at 68% is remarkable for zero training data. Few-shot at 76% is competitive with supervised methods at low data volumes.</li>
-            <li>But at 100K tickets, LLM few-shot (76%) is dominated by every supervised method. The value is at the low end of the data spectrum.</li>
+            <li>Zero-shot at 77.7% is strong for zero training data. Few-shot (evaluation in progress) should push into the low-to-mid 80s with proper example selection.</li>
+            <li>At ~12K tickets, zero-shot (77.7%) underperforms the TF-IDF baselines (86-87%) — the value is at the low end of the data spectrum.</li>
             <li>The killer use case: bootstrapping. Use LLM classification to label your first 1K tickets, then train a supervised model on those labels.</li>
             <li>At OpenAI, the latency and cost concerns are reduced — but even then, a fine-tuned model will outperform prompt engineering.</li>
           </ul>

@@ -32,12 +32,12 @@ export default function MethodologyPage() {
               </p>
             </div>
             <div>
-              <h3 className="text-xs font-medium mb-2" style={{ color: "var(--foreground)" }}>Template System</h3>
+              <h3 className="text-xs font-medium mb-2" style={{ color: "var(--foreground)" }}>LLM-Generated Tickets</h3>
               <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
-                300+ base templates across 12 categories, with compositional variation:
-                each ticket = base template + random detail fragment (60%) + context suffix (40%) + tone prefix.
-                20+ placeholder variables ({"{plan}"}, {"{model}"}, {"{error_code}"}, {"{country}"}, etc.)
-                provide further variation. At 100K tickets, ~43% of texts are unique.
+                12,091 unique tickets generated using Claude Haiku, with structured prompts
+                specifying category, customer tier, urgency, and account metadata. Each ticket
+                is a unique natural-language formulation — no templates. This produces realistic
+                variation in phrasing, tone, and specificity that template-based approaches cannot match.
               </p>
             </div>
           </div>
@@ -111,8 +111,7 @@ export default function MethodologyPage() {
             <div>
               <h3 className="text-xs font-medium mb-2" style={{ color: "var(--foreground)" }}>Train / Test Split</h3>
               <ul className="space-y-1.5 text-xs" style={{ color: "var(--foreground-muted)" }}>
-                <li>80% training, 20% test (stratified by category)</li>
-                <li>5-fold cross-validation for hyperparameter tuning</li>
+                <li>~12K total tickets (80/20 split = ~9,557 train / ~2,390 test, stratified by category)</li>
                 <li>Test set held out entirely during development</li>
                 <li>Ambiguous tickets present in both splits proportionally</li>
               </ul>
@@ -130,8 +129,8 @@ export default function MethodologyPage() {
           <div className="mt-4">
             <h3 className="text-xs font-medium mb-2" style={{ color: "var(--foreground)" }}>Learning Curve Protocol</h3>
             <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
-              For the Volume vs. Method analysis, models are trained on random subsets of 100, 500, 1K, 5K, 10K, 50K,
-              and 100K tickets (stratified sampling to preserve class distribution). Each is evaluated on the same
+              For the Volume vs. Method analysis, models are trained on random subsets of 100, 500, 1K, 5K,
+              and ~9.5K tickets (stratified sampling to preserve class distribution). Each is evaluated on the same
               held-out test set. This isolates the effect of training data volume from model capacity.
             </p>
           </div>
@@ -146,8 +145,8 @@ export default function MethodologyPage() {
           </h2>
           <div className="space-y-3">
             {[
-              { title: "Synthetic data", detail: "Template-generated tickets are more formulaic than real support tickets. Real tickets have typos, code snippets, screenshots, conversation threads, and emotional language that templates can't fully capture. Results on real data would likely be lower across all methods." },
-              { title: "Simulated results", detail: "Model performance numbers are simulated based on published benchmarks and realistic scaling curves, not from actual training runs on this specific dataset. The relative ordering of methods is well-established in the literature; the exact numbers are illustrative." },
+              { title: "Synthetic data", detail: "LLM-generated tickets are more coherent and consistent than real support tickets. Real tickets have typos, code snippets, screenshots, conversation threads, and emotional language that synthetic generation can't fully capture. Results on real data would likely be lower across all methods." },
+              { title: "Measured vs. projected results", detail: "Local model results (TF-IDF + Logistic Regression, TF-IDF + XGBoost, Embeddings + XGBoost) and LLM zero-shot are real measured results from actual training runs on this dataset. Fine-tuned BERT curves are projected based on published benchmarks. Fine-tuned LLM and distillation evaluations are in progress." },
               { title: "No multi-label evaluation", detail: "Ambiguous tickets are labeled with primary + secondary category, but evaluation uses only the primary label. A production system might want true multi-label classification." },
               { title: "Static categories", detail: "Real support categories evolve. New products launch, old ones deprecate. This dataset is a snapshot. A production system needs drift detection and category management." },
               { title: "No ticket context", detail: "Real tickets often include images, attachments, conversation history, and account state. This dataset uses text + metadata only." },

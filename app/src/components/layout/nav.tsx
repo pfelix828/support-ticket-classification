@@ -29,10 +29,10 @@ const navItems: NavEntry[] = [
   { href: "/data", label: "Data Explorer", icon: Database },
 
   { label: "Methods", separator: true },
+  { href: "/llm", label: "LLM Zero/Few-Shot", icon: Sparkles },
   { href: "/baseline", label: "TF-IDF + Logistic / XGBoost", icon: BarChart3 },
   { href: "/embeddings", label: "Embeddings + XGBoost", icon: Scan },
   { href: "/bert", label: "Fine-Tuned BERT", icon: Brain },
-  { href: "/llm", label: "LLM Zero/Few-Shot", icon: Sparkles },
   { href: "/finetune", label: "Fine-Tuned LLM", icon: Cpu },
   { href: "/distillation", label: "Distillation (o1 → 4o-mini)", icon: Zap },
 

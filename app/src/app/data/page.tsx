@@ -105,7 +105,7 @@ export default function DataExplorerPage() {
             Data Explorer
           </h1>
           <p className="mt-4 text-lg leading-relaxed max-w-2xl" style={{ color: "var(--foreground-secondary)" }}>
-            100,000 synthetic support tickets across 12 categories, modeled
+            12,091 synthetic support tickets across 12 categories, modeled
             after OpenAI&apos;s public help center taxonomy. Realistic class
             imbalance, ambiguous tickets, and structured metadata.
           </p>
@@ -122,7 +122,7 @@ export default function DataExplorerPage() {
             Category Distribution
           </h2>
           <p className="text-xs mb-6" style={{ color: "var(--foreground-muted)" }}>
-            100,000 tickets. Billing and ChatGPT dominate; Security is the rarest class.
+            12,091 tickets. Billing and ChatGPT dominate; Security is the rarest class.
           </p>
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={chartData} margin={{ top: 5, right: 30, left: 10, bottom: 60 }}>
@@ -167,7 +167,7 @@ export default function DataExplorerPage() {
       <section className="px-12 pb-8">
         <div className="grid grid-cols-4 gap-3">
           {[
-            { label: "Total Tickets", value: "100,000" },
+            { label: "Total Tickets", value: "12,091" },
             { label: "Categories", value: "12" },
             { label: "Ambiguous Tickets", value: "~10%" },
             { label: "Metadata Fields", value: "5" },

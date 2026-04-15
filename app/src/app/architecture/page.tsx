@@ -34,7 +34,7 @@ export default function ArchitecturePage() {
                 </p>
                 <div className="flex gap-4 mt-3">
                   <div className="text-xs"><span style={{ color: "var(--success)" }}>75%</span> of tickets routed here</div>
-                  <div className="text-xs"><span style={{ color: "var(--accent)" }}>93%</span> accuracy on routed tickets</div>
+                  <div className="text-xs"><span style={{ color: "var(--accent)" }}>~95%</span> accuracy on routed tickets*</div>
                   <div className="text-xs"><span style={{ color: "var(--foreground-muted)" }}>~50ms</span> latency</div>
                 </div>
               </div>
@@ -62,7 +62,7 @@ export default function ArchitecturePage() {
                 </p>
                 <div className="flex gap-4 mt-3">
                   <div className="text-xs"><span style={{ color: "var(--success)" }}>20%</span> of tickets routed here</div>
-                  <div className="text-xs"><span style={{ color: "var(--accent)" }}>91%</span> accuracy on routed tickets</div>
+                  <div className="text-xs"><span style={{ color: "var(--accent)" }}>~92%</span> accuracy on routed tickets*</div>
                   <div className="text-xs"><span style={{ color: "var(--foreground-muted)" }}>~200ms</span> latency</div>
                 </div>
               </div>
@@ -96,6 +96,10 @@ export default function ArchitecturePage() {
               </div>
             </div>
           </div>
+          <p className="text-xs mt-4" style={{ color: "var(--foreground-muted)" }}>
+            *Estimated from confidence-threshold routing. Measured overall F1: XGBoost + Embeddings = 89.1%, Fine-Tuned GPT-4o-mini = 96.1%.
+            Confident-subset accuracy is higher than overall F1 because only high-confidence predictions are routed.
+          </p>
         </div>
       </section>
 
@@ -107,7 +111,7 @@ export default function ArchitecturePage() {
           </h2>
           <div className="grid grid-cols-4 gap-3">
             {[
-              { label: "Overall accuracy", value: "96%", detail: "Weighted across all three tiers" },
+              { label: "Overall accuracy", value: "~95%", detail: "Estimated: confident XGBoost + LLM on hard subset + human" },
               { label: "Avg latency", value: "~90ms", detail: "75% at 50ms, 20% at 200ms, 5% manual" },
               { label: "Auto-routed", value: "95%", detail: "Only 5% need human intervention" },
               { label: "Cost at scale", value: "No API cost", detail: "Internal GPU + XGBoost on CPU" },
@@ -132,7 +136,7 @@ export default function ArchitecturePage() {
             <div>
               <h3 className="text-xs font-medium mb-2 uppercase tracking-wide" style={{ color: "var(--foreground-muted)" }}>Single Fine-Tuned LLM</h3>
               <div className="space-y-2 text-xs" style={{ color: "var(--foreground-secondary)" }}>
-                <p>95% F1, ~200ms latency, every ticket hits the LLM</p>
+                <p>96.1% F1, ~200ms latency, every ticket hits the LLM</p>
                 <p>At 1M tickets/month: 1M LLM inference calls</p>
                 <p>At 10M tickets/month: 10M LLM inference calls</p>
                 <p style={{ color: "var(--foreground-muted)" }}>Even at OpenAI, GPU time isn&apos;t infinite — there&apos;s opportunity cost</p>
@@ -141,7 +145,7 @@ export default function ArchitecturePage() {
             <div>
               <h3 className="text-xs font-medium mb-2 uppercase tracking-wide" style={{ color: "var(--foreground-muted)" }}>Cascade (XGBoost → LLM → Human)</h3>
               <div className="space-y-2 text-xs" style={{ color: "var(--foreground-secondary)" }}>
-                <p>96% effective accuracy, ~90ms avg latency</p>
+                <p>~95% effective accuracy, ~90ms avg latency</p>
                 <p>At 1M tickets/month: 250K LLM calls (75% handled by XGBoost)</p>
                 <p>At 10M tickets/month: 2.5M LLM calls (75% savings)</p>
                 <p style={{ color: "var(--success)" }}>Better accuracy AND lower resource usage</p>
@@ -174,10 +178,10 @@ export default function ArchitecturePage() {
               </thead>
               <tbody>
                 {[
-                  { vol: "100K/mo", llm: "95%", xgb: "91%", gap: "4pt", cost: "$100/mo" },
-                  { vol: "1M/mo", llm: "95.5%", xgb: "92.5%", gap: "3pt", cost: "$1K/mo" },
-                  { vol: "10M/mo", llm: "96%", xgb: "93%", gap: "3pt", cost: "$10K/mo" },
-                  { vol: "100M/mo", llm: "96%", xgb: "93.5%", gap: "2.5pt", cost: "$100K/mo" },
+                  { vol: "100K/mo", llm: "96.1%", xgb: "89.1%", gap: "7pt", cost: "$100/mo" },
+                  { vol: "1M/mo", llm: "96.5%", xgb: "91%", gap: "5.5pt", cost: "$1K/mo" },
+                  { vol: "10M/mo", llm: "97%", xgb: "92%", gap: "5pt", cost: "$10K/mo" },
+                  { vol: "100M/mo", llm: "97%", xgb: "93%", gap: "4pt", cost: "$100K/mo" },
                 ].map((row, i) => (
                   <tr key={row.vol} style={{ borderTop: "1px solid var(--border)", backgroundColor: i % 2 === 0 ? "var(--background-card)" : "var(--background-secondary)" }}>
                     <td className="px-5 py-2.5 text-xs font-medium" style={{ color: "var(--foreground)" }}>{row.vol}</td>
@@ -214,7 +218,7 @@ export default function ArchitecturePage() {
               <div className="flex-1 p-4 rounded-lg" style={{ backgroundColor: "var(--background-secondary)" }}>
                 <h3 className="text-xs font-medium mb-1" style={{ color: "var(--foreground)" }}>Fine-tune the LLM on your labeled data</h3>
                 <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>
-                  This is your &ldquo;teacher&rdquo; model. It achieves 95-96% accuracy and understands ambiguous tickets.
+                  This is your &ldquo;teacher&rdquo; model. It achieves 96.1% F1 and understands ambiguous tickets.
                 </p>
               </div>
             </div>
@@ -243,8 +247,8 @@ export default function ArchitecturePage() {
           <div className="mt-5 grid grid-cols-3 gap-3">
             <div className="p-4 rounded-lg" style={{ backgroundColor: "var(--background-secondary)" }}>
               <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>93-94%</p>
-              <p className="text-xs font-medium mt-1" style={{ color: "var(--foreground)" }}>Distilled model accuracy</p>
-              <p className="text-xs mt-0.5" style={{ color: "var(--foreground-muted)" }}>~1-2pt below the teacher LLM</p>
+              <p className="text-xs font-medium mt-1" style={{ color: "var(--foreground)" }}>Distilled model accuracy (at scale)</p>
+              <p className="text-xs mt-0.5" style={{ color: "var(--foreground-muted)" }}>With 855 teacher examples: 69.9%. Needs 10K+ for full performance.</p>
             </div>
             <div className="p-4 rounded-lg" style={{ backgroundColor: "var(--background-secondary)" }}>
               <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>&lt; 5ms</p>
@@ -456,8 +460,8 @@ export default function ArchitecturePage() {
             Key Takeaways
           </h3>
           <ul className="space-y-2 text-sm" style={{ color: "var(--foreground-secondary)" }}>
-            <li>The cascade (XGBoost → LLM → Human) achieves 96% effective accuracy — better than any single model — with 75% less LLM inference.</li>
-            <li>At 1M+ tickets, distillation is the endgame: train a fast model on the LLM&apos;s outputs to get 93-94% accuracy at near-zero cost and &lt;5ms latency.</li>
+            <li>The cascade (XGBoost → LLM → Human) achieves ~95% effective accuracy — comparable to the fine-tuned LLM alone — with 75% less LLM inference.</li>
+            <li>At 1M+ tickets, distillation is the endgame: train a fast model on the LLM&apos;s outputs to approach 93-94% accuracy at near-zero cost and &lt;5ms latency. (With only 855 teacher examples, we measured 69.9% — this needs scale.)</li>
             <li>The human-in-the-loop step isn&apos;t a failure mode — it&apos;s a feature. It creates the training data that makes the system better over time.</li>
             <li>The full arc: few-shot (day 1) → fine-tuned LLM (month 2) → cascade (month 3) → distillation (at scale). Each stage builds on the last.</li>
           </ul>

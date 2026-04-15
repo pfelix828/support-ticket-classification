@@ -19,16 +19,16 @@ export default function EmbeddingsPage() {
       <section className="px-12 pb-8">
         <div className="grid grid-cols-3 gap-3">
           <div className="rounded-lg border p-5" style={{ backgroundColor: "var(--background-card)", borderColor: "var(--border)" }}>
-            <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>91%</p>
-            <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>F1 (macro) at 100K tickets</p>
+            <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>89.1%</p>
+            <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>F1 (macro) at ~12K tickets</p>
           </div>
           <div className="rounded-lg border p-5" style={{ backgroundColor: "var(--background-card)", borderColor: "var(--border)" }}>
-            <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>~50ms</p>
+            <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>~1ms</p>
             <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>Inference latency (embed + classify)</p>
           </div>
           <div className="rounded-lg border p-5" style={{ backgroundColor: "var(--background-card)", borderColor: "var(--border)" }}>
             <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>384 + 5</p>
-            <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>Embedding dims + metadata features</p>
+            <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>Embedding dims + metadata features (minimal measured impact from metadata)</p>
           </div>
         </div>
       </section>
@@ -52,8 +52,9 @@ export default function EmbeddingsPage() {
               <h3 className="text-sm font-medium mb-2" style={{ color: "var(--foreground)" }}>Metadata Integration</h3>
               <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
                 XGBoost can natively combine the 384-dim embedding vector with structured features:
-                customer tier, account age, previous ticket count, urgency. An Enterprise customer
-                asking about &ldquo;user access&rdquo; likely means SSO/SCIM; a Free user means login problems.
+                customer tier, account age, previous ticket count, urgency. In practice, embeddings
+                dominate (~99.8% of feature importance), but metadata can still help on edge cases —
+                e.g., an Enterprise customer asking about &ldquo;user access&rdquo; likely means SSO/SCIM.
               </p>
             </div>
             <div>
@@ -85,17 +86,17 @@ export default function EmbeddingsPage() {
           <div className="grid grid-cols-2 gap-6">
             <div>
               <p className="text-xs leading-relaxed mb-3" style={{ color: "var(--foreground-muted)" }}>
-                Embedding dimensions account for ~85% of total feature importance, but the 5 metadata
-                features punch above their weight — especially <strong style={{ color: "var(--foreground)" }}>customer_tier</strong> which
-                is the #3 most important feature overall.
+                Embedding dimensions account for ~99.8% of total feature importance. The 5 metadata
+                features have negligible global importance, though they can still help on
+                specific ambiguous edge cases where text alone is insufficient.
               </p>
               <div className="space-y-2">
                 {[
-                  { feature: "Embedding dims (384)", importance: 85, color: "var(--chart-2)" },
-                  { feature: "customer_tier", importance: 6, color: "var(--chart-5)" },
-                  { feature: "account_age_days", importance: 4, color: "var(--chart-5)" },
-                  { feature: "previous_tickets", importance: 3, color: "var(--chart-5)" },
-                  { feature: "urgency", importance: 1.5, color: "var(--chart-5)" },
+                  { feature: "Embedding dims (384)", importance: 99.8, color: "var(--chart-2)" },
+                  { feature: "customer_tier", importance: 0.1, color: "var(--chart-5)" },
+                  { feature: "account_age_days", importance: 0.1, color: "var(--chart-5)" },
+                  { feature: "previous_tickets", importance: 0.1, color: "var(--chart-5)" },
+                  { feature: "urgency", importance: 0.0, color: "var(--chart-5)" },
                 ].map((f) => (
                   <div key={f.feature} className="flex items-center gap-3">
                     <span className="text-xs w-36 shrink-0" style={{ color: "var(--foreground-secondary)" }}>{f.feature}</span>
@@ -112,8 +113,8 @@ export default function EmbeddingsPage() {
             </div>
             <div>
               <p className="text-xs leading-relaxed mb-3" style={{ color: "var(--foreground-muted)" }}>
-                The metadata features are especially valuable for disambiguating tickets
-                where the text alone is ambiguous:
+                While metadata features have low global importance, they can still help
+                on specific ambiguous edge cases where text alone is insufficient:
               </p>
               <div className="space-y-3">
                 {[
@@ -156,8 +157,8 @@ export default function EmbeddingsPage() {
             Key Takeaways
           </h3>
           <ul className="space-y-2 text-sm" style={{ color: "var(--foreground-secondary)" }}>
-            <li>3 points over TF-IDF + XGBoost (91% vs 88%) — the semantic understanding matters.</li>
-            <li>Metadata features provide meaningful lift, especially for ambiguous tickets. This is where the hybrid approach shines.</li>
+            <li>2.8 points over TF-IDF + XGBoost (89.1% vs 86.3%) — the semantic understanding matters.</li>
+            <li>Metadata features have minimal global importance (~0.2% combined), but can help on specific ambiguous edge cases. The real lift comes from the embeddings themselves.</li>
             <li>This is the workhorse production pattern at many real support orgs — fast, accurate, and you can add business logic features incrementally.</li>
             <li>The question is whether BERT or a fine-tuned LLM can justify the added GPU infrastructure cost.</li>
           </ul>
