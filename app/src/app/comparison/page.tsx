@@ -23,30 +23,32 @@ import {
  *
  * Projected results (based on published benchmarks and realistic scaling):
  * - emb_xgb (Embeddings + XGBoost)
- * - bert (Fine-Tuned BERT)
- * - llm_few (LLM Few-Shot)
- * - finetune_llm (Fine-Tuned LLM) — projected at low volumes, measured at ~9.5K
+ * - bert (Fine-Tuned BERT) — measured at all volumes
+ * - llm_few (LLM Few-Shot) — measured (constant, no training data)
+ * - finetune_llm (Fine-Tuned LLM) — projected at low volumes, measured at ~9.5K only
+ *
+ * Only finetune_llm has projected values (requires a separate OpenAI API fine-tuning job per volume point).
  */
 
 const learningCurveData = [
   {
     volume: 100,
     label: "100",
-    logreg: 0.0803,
-    xgboost: 0.2508,
-    emb_xgb: 0.32,
-    bert: 0.18,
-    llm_zero: 0.7773,
-    llm_few: 0.7894,
-    finetune_llm: 0.30, // projected — not enough data to fine-tune
+    logreg: 0.0803, // measured
+    xgboost: 0.2508, // measured
+    emb_xgb: 0.3608, // measured
+    bert: 0.0651, // measured
+    llm_zero: 0.7773, // measured (constant)
+    llm_few: 0.7894, // measured (constant)
+    finetune_llm: 0.30, // projected — not enough data to fine-tune via API
   },
   {
     volume: 500,
     label: "500",
-    logreg: 0.4505,
-    xgboost: 0.529,
-    emb_xgb: 0.58,
-    bert: 0.42,
+    logreg: 0.4505, // measured
+    xgboost: 0.529, // measured
+    emb_xgb: 0.6515, // measured
+    bert: 0.1102, // measured
     llm_zero: 0.7773,
     llm_few: 0.7894,
     finetune_llm: 0.55, // projected
@@ -54,10 +56,10 @@ const learningCurveData = [
   {
     volume: 1000,
     label: "1K",
-    logreg: 0.6558,
-    xgboost: 0.6389,
-    emb_xgb: 0.70,
-    bert: 0.58,
+    logreg: 0.6558, // measured
+    xgboost: 0.6389, // measured
+    emb_xgb: 0.7479, // measured
+    bert: 0.3311, // measured
     llm_zero: 0.7773,
     llm_few: 0.7894,
     finetune_llm: 0.70, // projected
@@ -65,10 +67,10 @@ const learningCurveData = [
   {
     volume: 5000,
     label: "5K",
-    logreg: 0.8297,
-    xgboost: 0.8195,
-    emb_xgb: 0.86,
-    bert: 0.82,
+    logreg: 0.8297, // measured
+    xgboost: 0.8195, // measured
+    emb_xgb: 0.8686, // measured
+    bert: 0.7875, // measured
     llm_zero: 0.7773,
     llm_few: 0.7894,
     finetune_llm: 0.90, // projected
@@ -76,13 +78,13 @@ const learningCurveData = [
   {
     volume: 9557,
     label: "~9.5K",
-    logreg: 0.8741,
-    xgboost: 0.863,
-    emb_xgb: 0.8914,
-    bert: 0.9118, // measured — fine-tuned BERT on ~9,557 tickets
-    llm_zero: 0.7773,
-    llm_few: 0.7894,
-    finetune_llm: 0.9608, // measured — fine-tuned GPT-4o-mini on ~9,557 tickets
+    logreg: 0.8741, // measured
+    xgboost: 0.863, // measured
+    emb_xgb: 0.8914, // measured
+    bert: 0.9077, // measured
+    llm_zero: 0.7773, // measured (constant)
+    llm_few: 0.7894, // measured (constant)
+    finetune_llm: 0.9608, // measured
   },
 ];
 
