@@ -99,7 +99,7 @@ export default function LlmPage() {
                 </li>
                 <li className="flex gap-2">
                   <span style={{ color: "var(--error)" }}>-</span>
-                  Trying to handle multi-intent tickets in a single classification step
+                  Trying to handle tickets near category boundaries without examples of those edges
                 </li>
               </ul>
             </div>
@@ -121,7 +121,7 @@ export default function LlmPage() {
                 <li>Categories change frequently (no retraining needed)</li>
                 <li>You need a classifier today, not in a week</li>
                 <li>You&apos;re bootstrapping labels for a supervised model later</li>
-                <li>Multi-intent detection matters (LLMs can identify both categories)</li>
+                <li>Nuanced category boundaries matter (LLMs reason about edge cases)</li>
               </ul>
             </div>
             <div className="p-4 rounded-lg" style={{ backgroundColor: "var(--background-secondary)" }}>

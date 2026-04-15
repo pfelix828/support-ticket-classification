@@ -26,8 +26,8 @@ export default function ErrorsPage() {
     },
     {
       method: "Fine-Tuned BERT",
-      strength: "Learns subtle contextual cues from fine-tuning on domain text.",
-      weakness: "Pending — not yet trained. Expected to improve on semantic confusion pairs.",
+      strength: "Learns subtle contextual cues from fine-tuning on domain text. Best overall F1 (91.2%) among non-LLM methods.",
+      weakness: "Still confused by API Usage → API Errors (9.7%) and the reverse (8.8%). Account Mgmt errors spread across multiple categories (Access, API Usage, Enterprise).",
     },
   ];
 
@@ -133,7 +133,7 @@ export default function ErrorsPage() {
                   { method: "TF-IDF + LogReg", security: "82.8%", privacy: "86.6%", newer: "96.0%" },
                   { method: "TF-IDF + XGBoost", security: "85.6%", privacy: "83.3%", newer: "97.9%" },
                   { method: "Emb + XGBoost", security: "85.7%", privacy: "88.2%", newer: "96.7%" },
-                  { method: "Fine-Tuned BERT", security: "—", privacy: "—", newer: "—" },
+                  { method: "Fine-Tuned BERT", security: "88.9%", privacy: "90.8%", newer: "98.8%" },
                 ].map((row, i) => (
                   <tr key={row.method} style={{ borderTop: "1px solid var(--border)", backgroundColor: i % 2 === 0 ? "var(--background-card)" : "var(--background-secondary)" }}>
                     <td className="px-5 py-2.5 text-xs font-medium" style={{ color: "var(--foreground)" }}>{row.method}</td>
@@ -146,8 +146,8 @@ export default function ErrorsPage() {
             </table>
           </div>
           <p className="text-xs mt-3" style={{ color: "var(--foreground-muted)" }}>
-            Embeddings + XGBoost leads on Privacy (88.2%) while XGBoost leads on Newer Products (97.9%).
-            Security is the tightest race — all three models land between 82.8% and 85.7%. BERT results pending.
+            BERT leads all rare categories: Security (88.9%), Privacy (90.8%), Newer Products (98.8%).
+            Fine-tuning on domain text gives it a clear edge on low-frequency classes despite limited examples.
           </p>
         </div>
       </section>
@@ -161,7 +161,7 @@ export default function ErrorsPage() {
           <ul className="space-y-2 text-sm" style={{ color: "var(--foreground-secondary)" }}>
             <li>The hardest errors are semantic, not lexical. API Usage vs API Errors is the top confusion pair across every model (10–12%), because the boundary is genuinely ambiguous.</li>
             <li>Each model has a distinct error signature. LogReg struggles most on API confusion; Embeddings + XGBoost has a unique Security → Account Mgmt problem (11.2%) that other models avoid.</li>
-            <li>Rare categories perform better than expected. Security F1 ranges from 82.8% to 85.7% despite only 98 training examples — careful feature engineering matters more than raw volume.</li>
+            <li>Rare categories perform better than expected. Security F1 ranges from 82.8% (LogReg) to 88.9% (BERT) despite only 98 training examples — careful feature engineering and fine-tuning matter more than raw volume.</li>
             <li>The production answer: don&apos;t try to eliminate all errors. Route low-confidence predictions to human agents and use their decisions as training data.</li>
           </ul>
         </div>

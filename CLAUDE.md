@@ -22,7 +22,7 @@ A full-stack project comparing classification methods for support ticket routing
 ## Key Design Decisions
 - 12 Tier-1 categories modeled after OpenAI's real help center structure
 - Realistic class imbalance (billing/ChatGPT dominate, Codex/Atlas rare)
-- 10% ambiguous/multi-intent tickets for hard classification cases
+- Natural category overlap between similar classes (API Usage vs API Errors, Account Access vs Account Mgmt) creates realistic classification challenges
 - Structured metadata (customer tier, account age) for hybrid model features
 - 7 methods compared: logistic regression, XGBoost, embeddings+XGBoost, BERT, LLM zero-shot, LLM few-shot, fine-tuned LLM
 - Cascade architecture as production recommendation

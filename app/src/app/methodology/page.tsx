@@ -52,12 +52,12 @@ export default function MethodologyPage() {
               </p>
             </div>
             <div>
-              <h3 className="text-xs font-medium mb-2" style={{ color: "var(--foreground)" }}>Ambiguous Tickets</h3>
+              <h3 className="text-xs font-medium mb-2" style={{ color: "var(--foreground)" }}>Natural Category Overlap</h3>
               <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
-                10% of tickets are multi-intent or ambiguous, drawn from 30 hand-crafted templates
-                (e.g., &ldquo;I was charged twice AND my API key stopped working&rdquo;). Each has a primary
-                and secondary category label. These test the classifier&apos;s ability to handle real-world
-                ticket complexity.
+                The dataset does not contain intentionally ambiguous or multi-intent tickets — every ticket
+                has a single ground-truth category. However, natural ambiguity exists between similar categories
+                (e.g., API Usage vs. API Errors, Account Access vs. Account Mgmt). These overlapping boundaries
+                are where classifiers struggle most.
               </p>
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function MethodologyPage() {
                   { feature: "account_age_days", type: "Numeric", dist: "Gamma(2, 180), capped at 1500", why: "New accounts → onboarding issues; old accounts → billing/management" },
                   { feature: "previous_tickets", type: "Numeric", dist: "Exponential(0.5), capped at 20", why: "Repeat tickets suggest unresolved issues, influences urgency routing" },
                   { feature: "urgency", type: "Categorical", dist: "High 15%, Medium 60%, Low 25%", why: "Urgent billing tickets need different routing than casual how-to questions" },
-                  { feature: "is_ambiguous", type: "Boolean", dist: "~10% True", why: "Ground truth for evaluating multi-intent detection" },
+                  { feature: "is_ambiguous", type: "Boolean", dist: "100% False", why: "Field exists in schema but is False for all tickets — no intentional ambiguity was generated" },
                 ].map((row, i) => (
                   <tr key={row.feature} style={{ borderTop: "1px solid var(--border)", backgroundColor: i % 2 === 0 ? "var(--background-card)" : "var(--background-secondary)" }}>
                     <td className="px-5 py-2.5 text-xs font-mono" style={{ color: "var(--accent)" }}>{row.feature}</td>
@@ -113,7 +113,7 @@ export default function MethodologyPage() {
               <ul className="space-y-1.5 text-xs" style={{ color: "var(--foreground-muted)" }}>
                 <li>~12K total tickets (80/20 split = ~9,557 train / ~2,390 test, stratified by category)</li>
                 <li>Test set held out entirely during development</li>
-                <li>Ambiguous tickets present in both splits proportionally</li>
+                <li>All tickets have a single ground-truth category (no multi-label splits needed)</li>
               </ul>
             </div>
             <div>
@@ -146,8 +146,8 @@ export default function MethodologyPage() {
           <div className="space-y-3">
             {[
               { title: "Synthetic data", detail: "LLM-generated tickets are more coherent and consistent than real support tickets. Real tickets have typos, code snippets, screenshots, conversation threads, and emotional language that synthetic generation can't fully capture. Results on real data would likely be lower across all methods." },
-              { title: "Measured vs. projected results", detail: "Local model results (TF-IDF + Logistic Regression, TF-IDF + XGBoost, Embeddings + XGBoost) and LLM zero-shot are real measured results from actual training runs on this dataset. Fine-tuned BERT curves are projected based on published benchmarks. Fine-tuned LLM and distillation evaluations are in progress." },
-              { title: "No multi-label evaluation", detail: "Ambiguous tickets are labeled with primary + secondary category, but evaluation uses only the primary label. A production system might want true multi-label classification." },
+              { title: "All results measured", detail: "All model results are real measured results from actual training runs on this dataset: local models (TF-IDF + Logistic Regression, TF-IDF + XGBoost, Embeddings + XGBoost), fine-tuned BERT, LLM zero-shot, fine-tuned LLM, and distillation." },
+              { title: "Single-label only", detail: "Every ticket has exactly one ground-truth category. Real support tickets often span multiple intents — a production system might want multi-label classification, but this dataset doesn't test that." },
               { title: "Static categories", detail: "Real support categories evolve. New products launch, old ones deprecate. This dataset is a snapshot. A production system needs drift detection and category management." },
               { title: "No ticket context", detail: "Real tickets often include images, attachments, conversation history, and account state. This dataset uses text + metadata only." },
             ].map((item) => (

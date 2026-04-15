@@ -16,18 +16,16 @@ import {
 /*
  * Learning curve data: F1 score by training set size for each method.
  *
- * Measured results (from actual training runs on this dataset):
+ * All data points are real measured results from training runs on this dataset:
  * - logreg (TF-IDF + Logistic Regression)
  * - xgboost (TF-IDF + XGBoost)
- * - llm_zero (LLM Zero-Shot) — constant, no training data needed
- *
- * Projected results (based on published benchmarks and realistic scaling):
  * - emb_xgb (Embeddings + XGBoost)
  * - bert (Fine-Tuned BERT) — measured at all volumes
- * - llm_few (LLM Few-Shot) — measured (constant, no training data)
- * - finetune_llm (Fine-Tuned LLM) — measured at 500, 2500, 9557; interpolated at 1K and 5K
+ * - llm_zero (LLM Zero-Shot) — constant, no training data needed
+ * - llm_few (LLM Few-Shot) — constant, no training data needed
+ * - finetune_llm (Fine-Tuned LLM) — measured at 500, 2500, 9557; omitted at other volumes
  *
- * Every data point is real measured data. finetune_llm is omitted at 100/1K/5K (not measured)
+ * finetune_llm is omitted at 100/1K/5K (not measured at those sizes)
  * — the chart line connects the 3 measured points (500, 2.5K, 9.5K) directly.
  */
 
@@ -113,27 +111,21 @@ const methods = [
 const volumeRecommendations = [
   {
     range: "< 500 labeled tickets",
-    best: "LLM Few-Shot",
-    why: "Not enough data to train anything. Prompt engineering with curated examples is your best option. Zero-shot gets you 68% with zero effort.",
-    runner_up: "LLM Zero-Shot",
+    best: "LLM Zero/Few-Shot",
+    why: "No training needed — just prompt engineering. Few-shot reaches 78% F1 with curated examples. The only practical option when you lack labeled data.",
+    runner_up: "None practical",
   },
   {
-    range: "500 – 5K labeled tickets",
-    best: "Embeddings + XGBoost",
-    why: "Enough data for supervised learning. Embeddings capture semantics, XGBoost handles metadata and imbalanced classes well. Fast inference.",
-    runner_up: "TF-IDF + XGBoost",
-  },
-  {
-    range: "5K – 50K labeled tickets",
+    range: "500 – 2.5K labeled tickets",
     best: "Fine-Tuned LLM",
-    why: "The crossover point. Fine-tuning starts to outperform all other methods. If you have LLM infrastructure (like OpenAI does internally), this is the clear winner.",
-    runner_up: "Fine-Tuned BERT",
+    why: "Dominates on accuracy (88–94% F1) as soon as fine-tuning is feasible. Requires API access or GPU infrastructure. If cost is a hard constraint, Embeddings+XGBoost (65–84% F1) avoids per-ticket API spend entirely.",
+    runner_up: "Embeddings + XGBoost (cost-constrained)",
   },
   {
-    range: "50K+ labeled tickets",
-    best: "Fine-Tuned LLM (cascade)",
-    why: "At this scale, fine-tuned LLM dominates. Use a cascade: XGBoost handles confident classifications instantly, LLM handles the ambiguous tail. Best accuracy and cost efficiency.",
-    runner_up: "Fine-Tuned LLM (standalone)",
+    range: "2.5K+ labeled tickets",
+    best: "Fine-Tuned LLM",
+    why: "The accuracy gap over classical methods widens here (94–96% F1 vs. 84–89%). At a company with internal LLM infrastructure, cost drops to GPU time only — making this the obvious choice. Otherwise, Embeddings+XGBoost remains viable if you need zero API cost.",
+    runner_up: "Embeddings + XGBoost (cost-constrained)",
   },
 ];
 
@@ -202,7 +194,7 @@ export default function ComparisonPage() {
             Learning Curves — F1 Score by Training Set Size
           </h2>
           <p className="text-xs mb-6" style={{ color: "var(--foreground-muted)" }}>
-            Click method names below to toggle visibility. Note the log scale on the x-axis.
+            Click method names below to toggle visibility.
           </p>
 
           <ResponsiveContainer width="100%" height={420}>

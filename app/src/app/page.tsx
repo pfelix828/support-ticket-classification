@@ -75,14 +75,14 @@ const sections = [
     icon: AlertTriangle,
     title: "Error Analysis",
     description:
-      "What does each method get wrong? Ambiguous tickets, multi-intent requests, and the long tail of rare categories.",
+      "What does each method get wrong? Category boundary confusion, semantic overlap, and the long tail of rare categories.",
   },
   {
     href: "/architecture",
     icon: Network,
     title: "Production Architecture",
     description:
-      "The cascade system: XGBoost handles the confident 80%, the fine-tuned LLM handles the ambiguous 20%. At OpenAI's scale with internal LLM access, what does the optimal system look like?",
+      "The cascade system: XGBoost handles the confident 80%, the fine-tuned LLM handles the low-confidence 20%. At OpenAI's scale with internal LLM access, what does the optimal system look like?",
   },
   {
     href: "/methodology",
@@ -146,7 +146,7 @@ export default function Home() {
             <div>
               <p className="text-2xl font-semibold" style={{ color: "var(--accent)" }}>12K</p>
               <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>
-                Synthetic tickets with realistic language, ambiguity, and class imbalance
+                Synthetic tickets with realistic language variation and class imbalance
               </p>
             </div>
             <div>

@@ -57,8 +57,8 @@ export default function ArchitecturePage() {
                   <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: "var(--background-secondary)", color: "var(--foreground-muted)" }}>~200ms</span>
                 </div>
                 <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
-                  Handles the ambiguous 25%: multi-intent tickets, rare categories, semantic edge cases.
-                  Can also detect if the ticket contains multiple issues and flag for split routing.
+                  Handles the low-confidence 25%: rare categories, semantic edge cases, and tickets near category boundaries.
+                  Better contextual understanding helps resolve cases where keyword-based methods fail.
                 </p>
                 <div className="flex gap-4 mt-3">
                   <div className="text-xs"><span style={{ color: "var(--success)" }}>20%</span> of tickets routed here</div>
@@ -85,7 +85,7 @@ export default function ArchitecturePage() {
                   <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: "var(--background-secondary)", color: "var(--foreground-muted)" }}>minutes</span>
                 </div>
                 <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
-                  The truly hard cases. These are often genuinely ambiguous tickets that need a human
+                  The truly hard cases. These are tickets near category boundaries that need a human
                   judgment call. Crucially, the human&apos;s classification feeds back into the training set.
                 </p>
                 <div className="flex gap-4 mt-3">
@@ -161,9 +161,13 @@ export default function ArchitecturePage() {
           <h2 className="text-sm font-medium mb-3" style={{ color: "var(--foreground-secondary)" }}>
             What Changes at 1M+ Tickets
           </h2>
-          <p className="text-xs mb-4 leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
+          <p className="text-xs mb-2 leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
             At high volume, the accuracy gap between methods narrows — but the cost and latency gap widens.
             The architecture evolves to handle this.
+          </p>
+          <p className="text-xs mb-4 leading-relaxed font-medium" style={{ color: "var(--foreground-muted)" }}>
+            Projected — these estimates illustrate scaling trends but are not based on measured results.
+            Our evaluation uses ~9.5K training tickets. The 100K row uses our measured F1 scores; higher volumes are extrapolated.
           </p>
           <div className="overflow-hidden rounded-lg border" style={{ borderColor: "var(--border)" }}>
             <table className="w-full text-sm">
@@ -179,9 +183,9 @@ export default function ArchitecturePage() {
               <tbody>
                 {[
                   { vol: "100K/mo", llm: "96.1%", xgb: "89.1%", gap: "7pt", cost: "$100/mo" },
-                  { vol: "1M/mo", llm: "96.5%", xgb: "91%", gap: "5.5pt", cost: "$1K/mo" },
-                  { vol: "10M/mo", llm: "97%", xgb: "92%", gap: "5pt", cost: "$10K/mo" },
-                  { vol: "100M/mo", llm: "97%", xgb: "93%", gap: "4pt", cost: "$100K/mo" },
+                  { vol: "1M/mo", llm: "~96–97%", xgb: "~90–92%", gap: "~5–6pt", cost: "$1K/mo" },
+                  { vol: "10M/mo", llm: "~97%", xgb: "~91–93%", gap: "~4–6pt", cost: "$10K/mo" },
+                  { vol: "100M/mo", llm: "~97%", xgb: "~92–94%", gap: "~3–5pt", cost: "$100K/mo" },
                 ].map((row, i) => (
                   <tr key={row.vol} style={{ borderTop: "1px solid var(--border)", backgroundColor: i % 2 === 0 ? "var(--background-card)" : "var(--background-secondary)" }}>
                     <td className="px-5 py-2.5 text-xs font-medium" style={{ color: "var(--foreground)" }}>{row.vol}</td>
@@ -218,7 +222,7 @@ export default function ArchitecturePage() {
               <div className="flex-1 p-4 rounded-lg" style={{ backgroundColor: "var(--background-secondary)" }}>
                 <h3 className="text-xs font-medium mb-1" style={{ color: "var(--foreground)" }}>Fine-tune the LLM on your labeled data</h3>
                 <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>
-                  This is your &ldquo;teacher&rdquo; model. It achieves 96.1% F1 and understands ambiguous tickets.
+                  This is your &ldquo;teacher&rdquo; model. It achieves 96.1% F1 and handles edge cases well.
                 </p>
               </div>
             </div>
@@ -238,7 +242,7 @@ export default function ArchitecturePage() {
                 <h3 className="text-xs font-medium mb-1" style={{ color: "var(--foreground)" }}>Train a &ldquo;student&rdquo; model on the LLM&apos;s outputs</h3>
                 <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>
                   An embeddings + XGBoost model (or a tiny BERT) trained on the LLM&apos;s soft labels.
-                  It learns the LLM&apos;s decision boundaries — including how it handles ambiguity — at a fraction of the cost.
+                  It learns the LLM&apos;s decision boundaries — including how it handles category overlap — at a fraction of the cost.
                 </p>
               </div>
             </div>
@@ -267,7 +271,7 @@ export default function ArchitecturePage() {
               <strong style={{ color: "var(--foreground)" }}>The full evolution:</strong> Start with LLM few-shot (day 1, no data).
               Fine-tune the LLM as labeled data accumulates (month 2). Deploy the cascade (month 3).
               Once you have 1M+ LLM-classified tickets, distill into a fast model and use the LLM only for
-              the ambiguous tail and drift detection. The LLM becomes the teacher, not the workhorse.
+              the low-confidence tail and drift detection. The LLM becomes the teacher, not the workhorse.
             </p>
           </div>
         </div>
@@ -300,7 +304,7 @@ export default function ArchitecturePage() {
                   This reasoning is the key: the student model learns the logic, not just the mapping.
                 </p>
                 <div className="mt-3 p-3 rounded font-mono text-xs" style={{ backgroundColor: "var(--background-secondary)", color: "var(--foreground-secondary)" }}>
-                  <p style={{ color: "var(--foreground-muted)" }}>// o1 output for an ambiguous ticket:</p>
+                  <p style={{ color: "var(--foreground-muted)" }}>// o1 output for a ticket near a category boundary:</p>
                   <p>&quot;The user mentions both a charge and an API key issue.</p>
                   <p>The primary complaint is the unauthorized charge ($200),</p>
                   <p>which is a billing issue. The API key problem is secondary</p>

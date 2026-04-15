@@ -39,7 +39,7 @@ export default function BertPage() {
           </h2>
           <p className="text-xs mb-4 leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
             BERT edges out embeddings+XGBoost by 2.1 points (91.2% vs 89.1%). The gains come primarily
-            from rare categories and ambiguous tickets, where task-specific fine-tuning helps.
+            from rare categories and tickets near category boundaries, where task-specific fine-tuning helps.
           </p>
           <div className="overflow-hidden rounded-lg border" style={{ borderColor: "var(--border)" }}>
             <table className="w-full text-sm">
@@ -94,7 +94,7 @@ export default function BertPage() {
             <h3 className="text-sm font-medium mb-3" style={{ color: "var(--foreground)" }}>Where BERT Gains Matter</h3>
             <div className="space-y-3">
               {[
-                { label: "Ambiguous tickets", detail: "BERT handles multi-intent tickets better because fine-tuning learns the primary category signal" },
+                { label: "Category boundary cases", detail: "BERT handles tickets near category boundaries better because fine-tuning learns subtle contextual distinctions (e.g., API Usage vs. API Errors)" },
                 { label: "Rare categories", detail: "Security (1.5% of data) benefits most from transfer learning — BERT's pre-training helps where XGBoost starves" },
                 { label: "Semantic paraphrasing", detail: "'My login isn't working' vs 'I can't access my account' — fine-tuned attention heads learn these equivalences" },
               ].map((item) => (
@@ -115,7 +115,7 @@ export default function BertPage() {
             Key Takeaways
           </h3>
           <ul className="space-y-2 text-sm" style={{ color: "var(--foreground-secondary)" }}>
-            <li>BERT edges out embeddings+XGBoost by 2.1 points (91.2% vs 89.1%). The gains are real but narrow — mostly on rare classes and ambiguous tickets.</li>
+            <li>BERT edges out embeddings+XGBoost by 2.1 points (91.2% vs 89.1%). The gains are real but narrow — mostly on rare classes and category boundary cases.</li>
             <li>The tradeoff: ~17 min training time, GPU dependency, no metadata integration, and no interpretability. In many production settings, that&apos;s not worth 2 points.</li>
             <li>BERT&apos;s real advantage emerges at lower data volumes (1K-5K tickets), where transfer learning compensates for limited training data.</li>
             <li>At ~9.5K tickets, the fine-tuned LLM (96.1% F1) crushes BERT by 4.9 points — making the BERT tradeoffs even harder to justify.</li>

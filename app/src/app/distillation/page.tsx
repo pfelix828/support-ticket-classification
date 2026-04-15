@@ -55,8 +55,9 @@ export default function DistillationPage() {
           </h2>
           <p className="text-xs mb-4 leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
             Standard fine-tuning trains on human-labeled data: ticket text → category label.
-            Distillation trains on a frontier model&apos;s outputs — including its reasoning.
-            The difference matters.
+            Distillation uses a frontier model as a teacher to generate those labels automatically — no human labelers needed.
+            In our implementation, training uses only the final category label, the same format as standard fine-tuning.
+            A production implementation could additionally include the teacher&apos;s chain-of-thought reasoning in the training data to transfer reasoning patterns to the student.
           </p>
           <div className="grid grid-cols-2 gap-6">
             <div>
@@ -91,7 +92,7 @@ export default function DistillationPage() {
                   </p>
                 </div>
                 <p className="text-xs mt-2" style={{ color: "var(--foreground-muted)" }}>→ <span style={{ color: "var(--accent)" }}>billing</span> (confidence: 0.87)</p>
-                <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>The student learns the <em>logic</em>, not just the label.</p>
+                <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>o1 reasons internally, but our training uses only the final label. A production enhancement would include the reasoning in training data.</p>
               </div>
             </div>
           </div>
@@ -124,8 +125,8 @@ export default function DistillationPage() {
                   Run o1 batch classification with Stored Completions
                 </h3>
                 <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>
-                  o1 classifies each ticket with chain-of-thought reasoning. Use the Batch API for cost efficiency.
-                  Stored Completions automatically capture the outputs for the fine-tuning step.
+                  o1 classifies each ticket, reasoning internally before producing a category label. Use the Batch API for cost efficiency.
+                  Stored Completions capture the outputs for the fine-tuning step. In our implementation, only the final labels are used for training.
                 </p>
               </div>
             </div>
@@ -149,7 +150,8 @@ export default function DistillationPage() {
                 </h3>
                 <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>
                   Use OpenAI&apos;s Model Distillation workflow to train 4o-mini on o1&apos;s stored completions.
-                  The student learns both the classifications and the reasoning patterns.
+                  In our implementation, the student learns the teacher&apos;s classification labels. Including the teacher&apos;s
+                  reasoning in training data (a potential enhancement) would allow the student to learn reasoning patterns as well.
                   Enable Structured Outputs to enforce strict JSON schema compliance.
                 </p>
               </div>
@@ -192,14 +194,14 @@ export default function DistillationPage() {
               </thead>
               <tbody>
                 {[
-                  { dim: "F1 (macro)", xgb: "86.3%", bert: "~92% (proj.)", ft: "pending", distill: "69.9% (855 ex.) → projected 90%+ at scale" },
-                  { dim: "Ambiguous tickets", xgb: "—", bert: "—", ft: "—", distill: "—" },
+                  { dim: "F1 (macro)", xgb: "86.3%", bert: "91.2%", ft: "96.1%", distill: "69.9% (855 ex.) → projected 90%+ at scale" },
+                  { dim: "Boundary cases", xgb: "Weak", bert: "Moderate", ft: "Strong", distill: "Strong (inherits from teacher)" },
                   { dim: "New product types", xgb: "Poor", bert: "Poor", ft: "Moderate", distill: "Strong" },
                   { dim: "Context window", xgb: "N/A", bert: "512 tokens", ft: "128K", distill: "128K" },
                   { dim: "Inference latency", xgb: "< 5ms", bert: "~20ms", ft: "~200ms", distill: "~200ms" },
                   { dim: "Marginal cost", xgb: "~$0 (CPU)", bert: "GPU time", ft: "GPU time", distill: "GPU time" },
                   { dim: "Requires labeled data", xgb: "Yes (lots)", bert: "Yes (lots)", ft: "Yes", distill: "No" },
-                  { dim: "Handles reasoning", xgb: "No", bert: "No", ft: "Partially", distill: "Yes (from o1)" },
+                  { dim: "Handles reasoning", xgb: "No", bert: "No", ft: "Partially", distill: "Not in our impl. (possible with reasoning-in-training)" },
                 ].map((row, i) => (
                   <tr key={row.dim} style={{ borderTop: "1px solid var(--border)", backgroundColor: i % 2 === 0 ? "var(--background-card)" : "var(--background-secondary)" }}>
                     <td className="px-5 py-2.5 text-xs font-medium" style={{ color: "var(--foreground)" }}>{row.dim}</td>
@@ -227,7 +229,9 @@ export default function DistillationPage() {
           </h2>
           <p className="text-xs mb-4 leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
             OpenAI launches new products regularly — Sora, Codex, Atlas all arrived recently.
-            Each launch creates ticket types the classifier has never seen. Here&apos;s how each method handles it:
+            Each launch creates ticket types the classifier has never seen. The o1 teacher can reason about new products from first principles, but
+            our distilled student doesn&apos;t inherit that reasoning ability directly — it needs a re-distillation cycle with new teacher labels.
+            Here&apos;s how each method handles it:
           </p>
           <div className="grid grid-cols-2 gap-3">
             {[

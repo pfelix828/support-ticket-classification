@@ -66,8 +66,6 @@ export default function DataExplorerPage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [stats, setStats] = useState<CategoryStats>({});
   const [filterCategory, setFilterCategory] = useState<string>("all");
-  const [filterAmbiguous, setFilterAmbiguous] = useState<boolean>(false);
-
   useEffect(() => {
     fetch("/data/tickets_sample.json")
       .then((r) => r.json())
@@ -88,7 +86,6 @@ export default function DataExplorerPage() {
 
   const filteredTickets = tickets.filter((t) => {
     if (filterCategory !== "all" && t.category !== filterCategory) return false;
-    if (filterAmbiguous && !t.is_ambiguous) return false;
     return true;
   });
 
@@ -107,7 +104,7 @@ export default function DataExplorerPage() {
           <p className="mt-4 text-lg leading-relaxed max-w-2xl" style={{ color: "var(--foreground-secondary)" }}>
             12,091 synthetic support tickets across 12 categories, modeled
             after OpenAI&apos;s public help center taxonomy. Realistic class
-            imbalance, ambiguous tickets, and structured metadata.
+            imbalance, natural category overlap, and structured metadata.
           </p>
         </div>
       </section>
@@ -169,7 +166,7 @@ export default function DataExplorerPage() {
           {[
             { label: "Total Tickets", value: "12,091" },
             { label: "Categories", value: "12" },
-            { label: "Ambiguous Tickets", value: "~10%" },
+            { label: "Imbalance Ratio", value: "16:1" },
             { label: "Metadata Fields", value: "5" },
           ].map((stat) => (
             <div
@@ -209,14 +206,7 @@ export default function DataExplorerPage() {
                 <option key={key} value={key}>{CATEGORY_LABELS[key]}</option>
               ))}
             </select>
-            <label className="flex items-center gap-2 text-xs" style={{ color: "var(--foreground-muted)" }}>
-              <input
-                type="checkbox"
-                checked={filterAmbiguous}
-                onChange={(e) => setFilterAmbiguous(e.target.checked)}
-              />
-              Ambiguous only
-            </label>
+            {/* is_ambiguous is False for all tickets in this dataset */}
             <span className="text-xs ml-auto" style={{ color: "var(--foreground-muted)" }}>
               Showing {Math.min(displayTickets.length, 50)} of {filteredTickets.length} sample tickets
             </span>
