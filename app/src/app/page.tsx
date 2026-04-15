@@ -26,7 +26,7 @@ const sections = [
     icon: Sparkles,
     title: "LLM Zero/Few-Shot",
     description:
-      "No training data needed — just a well-crafted prompt. The starting point when you have no labeled data. ~78% F1 (zero-shot).",
+      "No training data needed — just a well-crafted prompt. The starting point when you have no labeled data. 77.7% zero-shot, 78.9% few-shot.",
   },
   {
     href: "/baseline",
@@ -47,7 +47,7 @@ const sections = [
     icon: Brain,
     title: "Fine-Tuned BERT",
     description:
-      "End-to-end fine-tuning on ticket text. Gains over the hybrid approach are narrow — and you lose metadata integration. 92% F1 (projected).",
+      "End-to-end fine-tuning on ticket text. 91.2% F1 — 2.1 points over embeddings+XGBoost, but you lose metadata integration and interpretability.",
   },
   {
     href: "/finetune",

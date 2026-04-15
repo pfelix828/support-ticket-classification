@@ -14,25 +14,13 @@ export default function BertPage() {
         </div>
       </section>
 
-      {/* Projected disclaimer */}
-      <section className="px-12 pb-8">
-        <div className="rounded-lg border-l-4 px-5 py-4" style={{ backgroundColor: "var(--accent-muted)", borderColor: "var(--accent)" }}>
-          <p className="text-sm font-medium" style={{ color: "var(--foreground)" }}>
-            Projected results
-          </p>
-          <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--foreground-secondary)" }}>
-            Results on this page are projected based on published BERT classification benchmarks. BERT was not trained on this dataset.
-          </p>
-        </div>
-      </section>
-
       {/* Stats */}
       <section className="px-12 pb-8">
         <div className="grid grid-cols-4 gap-3">
           {[
-            { label: "F1 (macro) (projected)", value: "~92%" },
-            { label: "Inference latency (projected)", value: "~20ms" },
-            { label: "Training time (projected)", value: "~45 min" },
+            { label: "F1 (macro)", value: "91.2%" },
+            { label: "Inference latency", value: "~20ms" },
+            { label: "Training time", value: "~17 min" },
             { label: "Parameters", value: "110M" },
           ].map((s) => (
             <div key={s.label} className="rounded-lg border p-4" style={{ backgroundColor: "var(--background-card)", borderColor: "var(--border)" }}>
@@ -50,7 +38,7 @@ export default function BertPage() {
             BERT vs. Embeddings + XGBoost
           </h2>
           <p className="text-xs mb-4 leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
-            Based on published benchmarks, BERT would be projected to gain ~3 points over embeddings+XGBoost (~92% vs 89.1%). The gains would come primarily
+            BERT edges out embeddings+XGBoost by 2.1 points (91.2% vs 89.1%). The gains come primarily
             from rare categories and ambiguous tickets, where task-specific fine-tuning helps.
           </p>
           <div className="overflow-hidden rounded-lg border" style={{ borderColor: "var(--border)" }}>
@@ -65,12 +53,12 @@ export default function BertPage() {
               </thead>
               <tbody>
                 {[
-                  { dim: "F1 (macro)", emb: "89.1%", bert: "~92% (projected)", winner: "BERT (~+3pt)" },
-                  { dim: "Rare class performance", emb: "73-80%", bert: "78-85% (projected)", winner: "BERT" },
-                  { dim: "Ambiguous tickets", emb: "71%", bert: "~76% (projected)", winner: "BERT (~+5pt)" },
-                  { dim: "Latency", emb: "~1ms", bert: "~20ms (projected)", winner: "Emb+XGB" },
+                  { dim: "F1 (macro)", emb: "89.1%", bert: "91.2%", winner: "BERT (+2.1pt)" },
+                  { dim: "Worst class F1", emb: "73-80%", bert: "83.9% (api_usage)", winner: "BERT" },
+                  { dim: "Best class F1", emb: "~95%", bert: "98.8% (newer_products)", winner: "BERT" },
+                  { dim: "Latency", emb: "~1ms", bert: "~20ms", winner: "Emb+XGB" },
                   { dim: "Can use metadata", emb: "Yes (natively)", bert: "No (text only)", winner: "Emb+XGB" },
-                  { dim: "Training time", emb: "~23s", bert: "~45 min (projected)", winner: "Emb+XGB" },
+                  { dim: "Training time", emb: "~23s", bert: "~17 min", winner: "Emb+XGB" },
                   { dim: "GPU required", emb: "For embedding only", bert: "Yes (train + infer)", winner: "Emb+XGB" },
                   { dim: "Interpretability", emb: "Feature importance", bert: "Black box", winner: "Emb+XGB" },
                 ].map((row, i) => (
@@ -127,10 +115,10 @@ export default function BertPage() {
             Key Takeaways
           </h3>
           <ul className="space-y-2 text-sm" style={{ color: "var(--foreground-secondary)" }}>
-            <li>Based on published benchmarks, BERT is projected to edge out embeddings+XGBoost by ~3 points. The projected gains are narrow — mostly on rare classes and ambiguous tickets.</li>
-            <li>The tradeoff: you lose metadata integration and interpretability. In many production settings, that&apos;s not worth 1 point.</li>
+            <li>BERT edges out embeddings+XGBoost by 2.1 points (91.2% vs 89.1%). The gains are real but narrow — mostly on rare classes and ambiguous tickets.</li>
+            <li>The tradeoff: ~17 min training time, GPU dependency, no metadata integration, and no interpretability. In many production settings, that&apos;s not worth 2 points.</li>
             <li>BERT&apos;s real advantage emerges at lower data volumes (1K-5K tickets), where transfer learning compensates for limited training data.</li>
-            <li>The question remains: does a fine-tuned LLM blow past both? (Answer: yes — 96.1% F1.)</li>
+            <li>At ~9.5K tickets, the fine-tuned LLM (96.1% F1) crushes BERT by 4.9 points — making the BERT tradeoffs even harder to justify.</li>
           </ul>
         </div>
       </section>

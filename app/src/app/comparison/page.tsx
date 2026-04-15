@@ -37,7 +37,7 @@ const learningCurveData = [
     emb_xgb: 0.32,
     bert: 0.18,
     llm_zero: 0.7773,
-    llm_few: 0.80,
+    llm_few: 0.7894,
     finetune_llm: 0.30, // projected — not enough data to fine-tune
   },
   {
@@ -48,7 +48,7 @@ const learningCurveData = [
     emb_xgb: 0.58,
     bert: 0.42,
     llm_zero: 0.7773,
-    llm_few: 0.81,
+    llm_few: 0.7894,
     finetune_llm: 0.55, // projected
   },
   {
@@ -59,7 +59,7 @@ const learningCurveData = [
     emb_xgb: 0.70,
     bert: 0.58,
     llm_zero: 0.7773,
-    llm_few: 0.82,
+    llm_few: 0.7894,
     finetune_llm: 0.70, // projected
   },
   {
@@ -70,7 +70,7 @@ const learningCurveData = [
     emb_xgb: 0.86,
     bert: 0.82,
     llm_zero: 0.7773,
-    llm_few: 0.83,
+    llm_few: 0.7894,
     finetune_llm: 0.90, // projected
   },
   {
@@ -79,9 +79,9 @@ const learningCurveData = [
     logreg: 0.8741,
     xgboost: 0.863,
     emb_xgb: 0.8914,
-    bert: 0.87,
+    bert: 0.9118, // measured — fine-tuned BERT on ~9,557 tickets
     llm_zero: 0.7773,
-    llm_few: 0.83,
+    llm_few: 0.7894,
     finetune_llm: 0.9608, // measured — fine-tuned GPT-4o-mini on ~9,557 tickets
   },
 ];
