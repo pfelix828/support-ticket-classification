@@ -27,63 +27,75 @@ import {
  * - llm_few (LLM Few-Shot) — measured (constant, no training data)
  * - finetune_llm (Fine-Tuned LLM) — measured at 500, 2500, 9557; interpolated at 1K and 5K
  *
- * All lines are real measured data except finetune_llm at 1K and 5K (interpolated between measured points).
+ * Every data point is real measured data. finetune_llm is omitted at 100/1K/5K (not measured)
+ * — the chart line connects the 3 measured points (500, 2.5K, 9.5K) directly.
  */
 
 const learningCurveData = [
   {
     volume: 100,
     label: "100",
-    logreg: 0.0803, // measured
-    xgboost: 0.2508, // measured
-    emb_xgb: 0.3608, // measured
-    bert: 0.0651, // measured
-    llm_zero: 0.7773, // measured (constant)
-    llm_few: 0.7894, // measured (constant)
-    // finetune_llm omitted — minimum ~500 tickets needed to fine-tune
+    logreg: 0.0803,
+    xgboost: 0.2508,
+    emb_xgb: 0.3608,
+    bert: 0.0651,
+    llm_zero: 0.7773,
+    llm_few: 0.7894,
+    // finetune_llm: not feasible at 100 tickets
   },
   {
     volume: 500,
     label: "500",
-    logreg: 0.4505, // measured
-    xgboost: 0.529, // measured
-    emb_xgb: 0.6515, // measured
-    bert: 0.1102, // measured
+    logreg: 0.4505,
+    xgboost: 0.529,
+    emb_xgb: 0.6515,
+    bert: 0.1102,
     llm_zero: 0.7773,
     llm_few: 0.7894,
-    finetune_llm: 0.8797, // measured
+    finetune_llm: 0.8797,
   },
   {
     volume: 1000,
     label: "1K",
-    logreg: 0.6558, // measured
-    xgboost: 0.6389, // measured
-    emb_xgb: 0.7479, // measured
-    bert: 0.3311, // measured
+    logreg: 0.6558,
+    xgboost: 0.6389,
+    emb_xgb: 0.7479,
+    bert: 0.3311,
     llm_zero: 0.7773,
     llm_few: 0.7894,
-    finetune_llm: 0.91, // interpolated between measured 500 (0.88) and measured 2500 (0.94)
+    // finetune_llm: not measured at this volume
+  },
+  {
+    volume: 2500,
+    label: "2.5K",
+    logreg: 0.7811,
+    xgboost: 0.7604,
+    emb_xgb: 0.8418,
+    bert: 0.6899,
+    llm_zero: 0.7773,
+    llm_few: 0.7894,
+    finetune_llm: 0.9438,
   },
   {
     volume: 5000,
     label: "5K",
-    logreg: 0.8297, // measured
-    xgboost: 0.8195, // measured
-    emb_xgb: 0.8686, // measured
-    bert: 0.7875, // measured
+    logreg: 0.8297,
+    xgboost: 0.8195,
+    emb_xgb: 0.8686,
+    bert: 0.7875,
     llm_zero: 0.7773,
     llm_few: 0.7894,
-    finetune_llm: 0.9523, // interpolated between measured 2500 (0.9438) and measured 9557 (0.9608)
+    // finetune_llm: not measured at this volume
   },
   {
     volume: 9557,
     label: "~9.5K",
-    logreg: 0.8741, // measured
-    xgboost: 0.863, // measured
-    emb_xgb: 0.8914, // measured
-    bert: 0.9077, // measured
-    llm_zero: 0.7773, // measured (constant)
-    llm_few: 0.7894, // measured (constant)
+    logreg: 0.8741,
+    xgboost: 0.863,
+    emb_xgb: 0.8914,
+    bert: 0.9077,
+    llm_zero: 0.7773,
+    llm_few: 0.7894,
     finetune_llm: 0.9608, // measured
   },
 ];
