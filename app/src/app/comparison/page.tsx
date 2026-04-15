@@ -271,6 +271,7 @@ export default function ComparisonPage() {
                   dot={activeLines.has(m.key)}
                   activeDot={{ r: 5 }}
                   opacity={activeLines.has(m.key) ? 1 : 0}
+                  connectNulls
                 />
               ))}
             </LineChart>
