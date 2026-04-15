@@ -25,9 +25,9 @@ import {
  * - emb_xgb (Embeddings + XGBoost)
  * - bert (Fine-Tuned BERT) — measured at all volumes
  * - llm_few (LLM Few-Shot) — measured (constant, no training data)
- * - finetune_llm (Fine-Tuned LLM) — projected at low volumes, measured at ~9.5K only
+ * - finetune_llm (Fine-Tuned LLM) — measured at 500, 2500, 9557; interpolated at 1K and 5K
  *
- * Only finetune_llm has projected values (requires a separate OpenAI API fine-tuning job per volume point).
+ * All lines are real measured data except finetune_llm at 1K and 5K (interpolated between measured points).
  */
 
 const learningCurveData = [
@@ -40,7 +40,7 @@ const learningCurveData = [
     bert: 0.0651, // measured
     llm_zero: 0.7773, // measured (constant)
     llm_few: 0.7894, // measured (constant)
-    finetune_llm: 0.30, // projected — not enough data to fine-tune via API
+    // finetune_llm omitted — minimum ~500 tickets needed to fine-tune
   },
   {
     volume: 500,
@@ -51,7 +51,7 @@ const learningCurveData = [
     bert: 0.1102, // measured
     llm_zero: 0.7773,
     llm_few: 0.7894,
-    finetune_llm: 0.55, // projected
+    finetune_llm: 0.8797, // measured
   },
   {
     volume: 1000,
@@ -62,7 +62,7 @@ const learningCurveData = [
     bert: 0.3311, // measured
     llm_zero: 0.7773,
     llm_few: 0.7894,
-    finetune_llm: 0.70, // projected
+    finetune_llm: 0.91, // interpolated between measured 500 (0.88) and measured 2500 (0.94)
   },
   {
     volume: 5000,
@@ -73,7 +73,7 @@ const learningCurveData = [
     bert: 0.7875, // measured
     llm_zero: 0.7773,
     llm_few: 0.7894,
-    finetune_llm: 0.90, // projected
+    finetune_llm: 0.9523, // interpolated between measured 2500 (0.9438) and measured 9557 (0.9608)
   },
   {
     volume: 9557,
