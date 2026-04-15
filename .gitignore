@@ -7,3 +7,5 @@ __pycache__/
 .DS_Store
 # Full dataset too large for git — regenerate with: python -m src.generate_data
 app/public/data/tickets.json
+python/batch/*.jsonl
+python/batch/*_output.jsonl

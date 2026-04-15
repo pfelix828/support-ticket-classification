@@ -1,0 +1,29 @@
+{
+  "label_batch_id": "batch_69dfc388481081909b627f32e6b8022d",
+  "train_size": 9557,
+  "label_chunk_ids": [
+    "batch_69dfc3afc21081908c2bca247fd052e9",
+    "batch_69dfc3b0fbdc8190bd3daa8c5a59d65b",
+    "batch_69dfc3b1f39c8190bae51b3fac661bb4",
+    "batch_69dfc3b2b3f8819097f21d6fca53a3f1",
+    "batch_69dfc3b37cdc8190bb266b8445be727e",
+    "batch_69dfc3b4f8d0819082baed86c42b2c60",
+    "batch_69dfc3b7ab188190af7c431db2c0c21e",
+    "batch_69dfc3b8808081908fecac7a0d93135f",
+    "batch_69dfc3b9da2c81908dd39334474e4c0e",
+    "batch_69dfc3baa9f0819086b92c5ea22941ff",
+    "batch_69dfc4e7ba6c81908276dd32c6224097",
+    "batch_69dfc52763a481909dcfa21811477104",
+    "batch_69dfc8120fac81909c865c231616a155",
+    "batch_69dfc90b7f288190943e2ade1d93902a",
+    "batch_69dfc9c72d9481909c16851dcb4d58c6",
+    "batch_69dfca8dee608190a6788cdc24125917",
+    "batch_69dfd02539ac819089765e8f9af2faf2",
+    "batch_69dfd11f91588190947300f74b868c5c",
+    "batch_69dfd40a05ec81909157e7c4c053fe68",
+    "batch_69dfc3c423ac8190adb64df521344b6c"
+  ],
+  "chunk_size": 500,
+  "ft_job_id": "ftjob-6z4en99WYinT7f7nKsVgWnUW",
+  "label_count": 7358
+}
