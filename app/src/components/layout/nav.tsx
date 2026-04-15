@@ -15,6 +15,7 @@ import {
   AlertTriangle,
   Network,
   FileText,
+  BookOpen,
 } from "lucide-react";
 
 interface NavEntry {
@@ -41,6 +42,7 @@ const navItems: NavEntry[] = [
   { href: "/errors", label: "Error Analysis", icon: AlertTriangle },
   { href: "/architecture", label: "Production Architecture", icon: Network },
   { href: "/methodology", label: "Methodology", icon: FileText },
+  { href: "/glossary", label: "Glossary", icon: BookOpen },
 ];
 
 export function Nav() {
