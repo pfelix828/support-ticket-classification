@@ -18,14 +18,15 @@ export default function DistillationPage() {
       <section className="px-12 pb-4">
         <div className="rounded-lg border p-4" style={{ backgroundColor: "rgba(196, 112, 90, 0.08)", borderColor: "var(--error)" }}>
           <p className="text-sm font-medium mb-1" style={{ color: "var(--error)" }}>
-            Distillation underperformed standard fine-tuning — even at scale
+            Distillation underperformed standard fine-tuning — across three experiments
           </p>
           <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-secondary)" }}>
-            We ran distillation twice. With 855 o1-mini teacher labels: 69.9% F1. With 7,358 o4-mini teacher labels: 78.9% F1.
-            Both are well below standard fine-tuning on human labels (96.1% F1 at 9,557 examples). The bottleneck is
-            label quality, not volume — the teacher model&apos;s ~13% error rate on label parsing compounds during training.
-            The student can&apos;t outperform its teacher. In our implementation, distillation offers no advantage over
-            standard fine-tuning when accurate human labels are available.
+            We ran three distillation experiments. Labels only (855 examples): 69.9% F1.
+            Labels only (7,358 examples): 78.9% F1. Labels with chain-of-thought reasoning (7,358 examples): 79.8% F1.
+            All well below standard fine-tuning on human labels (96.1%). Including the teacher&apos;s reasoning
+            added less than 1 point. The bottleneck isn&apos;t reasoning transfer or data volume — it&apos;s teacher
+            accuracy. The o4-mini teacher classifies at roughly zero-shot quality (~85-87%), and the student
+            can&apos;t exceed its teacher. Standard fine-tuning uses 100%-accurate human labels, which is why it wins decisively.
           </p>
         </div>
       </section>
@@ -34,10 +35,10 @@ export default function DistillationPage() {
       <section className="px-12 pb-8">
         <div className="grid grid-cols-4 gap-3">
           {[
-            { label: "F1 — 855 teacher labels", value: "69.9%" },
-            { label: "F1 — 7,358 teacher labels", value: "78.9%" },
-            { label: "F1 — standard FT (human labels)", value: "96.1%" },
-            { label: "Verdict", value: "Label quality > volume" },
+            { label: "Labels only (855 ex.)", value: "69.9%" },
+            { label: "Labels only (7,358 ex.)", value: "78.9%" },
+            { label: "With reasoning (7,358 ex.)", value: "79.8%" },
+            { label: "Standard FT (human labels)", value: "96.1%" },
           ].map((s) => (
             <div key={s.label} className="rounded-lg border p-4" style={{ backgroundColor: "var(--background-card)", borderColor: "var(--border)" }}>
               <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>{s.value}</p>
@@ -194,7 +195,7 @@ export default function DistillationPage() {
               </thead>
               <tbody>
                 {[
-                  { dim: "F1 (macro)", xgb: "86.3%", bert: "91.2%", ft: "96.1%", distill: "78.9% (7,358 teacher labels)" },
+                  { dim: "F1 (macro)", xgb: "86.3%", bert: "91.2%", ft: "96.1%", distill: "79.8% (with reasoning, 1 epoch)" },
                   { dim: "Boundary cases", xgb: "Weak", bert: "Moderate", ft: "Strong", distill: "Strong (inherits from teacher)" },
                   { dim: "New product types", xgb: "Poor", bert: "Poor", ft: "Moderate", distill: "Strong" },
                   { dim: "Context window", xgb: "N/A", bert: "512 tokens", ft: "128K", distill: "128K" },
@@ -272,10 +273,10 @@ export default function DistillationPage() {
             Key Takeaways
           </h3>
           <ul className="space-y-2 text-sm" style={{ color: "var(--foreground-secondary)" }}>
-            <li><strong>More teacher data helped, but didn&apos;t close the gap.</strong> 855 labels → 69.9%. 7,358 labels → 78.9%. But standard fine-tuning on 9,557 human labels hit 96.1%. The teacher&apos;s label quality is the ceiling.</li>
-            <li><strong>Label quality matters more than method.</strong> The o4-mini teacher had ~13% label errors (parsing failures + misclassifications). Those errors compound during fine-tuning — the student inherits the teacher&apos;s mistakes.</li>
-            <li><strong>Distillation&apos;s real value is when you have no human labels at all.</strong> If you can&apos;t label data manually, teacher-generated labels (78.9%) still beat zero-shot (77.7%) and approach classical methods. But if accurate human labels exist, standard fine-tuning wins decisively.</li>
-            <li>A production implementation could improve on this by using a more capable teacher (o1 vs o4-mini), better parsing to reduce label errors, and including chain-of-thought reasoning in the training data.</li>
+            <li><strong>Three experiments, same conclusion.</strong> Labels only (855 ex.): 69.9%. Labels only (7,358 ex.): 78.9%. With reasoning (7,358 ex.): 79.8%. None approached standard fine-tuning (96.1%). More data and reasoning transfer both helped marginally, but didn&apos;t change the outcome.</li>
+            <li><strong>The student can&apos;t exceed its teacher.</strong> Our o4-mini teacher classifies at roughly zero-shot quality (~85-87%). The student learned from those labels and landed at ~80%. Standard fine-tuning uses human labels that are 100% accurate by definition — that&apos;s why it reaches 96%.</li>
+            <li><strong>Reasoning transfer added less than 1 point.</strong> Including the teacher&apos;s chain-of-thought in training (79.8%) barely improved over labels alone (78.9%). The reasoning helps the teacher classify better, but the student doesn&apos;t meaningfully benefit from seeing it — the final label is what drives learning.</li>
+            <li><strong>Distillation needs a better teacher.</strong> To compete with human-label fine-tuning, you&apos;d need a teacher that approaches human accuracy — a more capable model (full o1), or a teacher that&apos;s already been fine-tuned on some human labels. Zero-shot o4-mini isn&apos;t good enough.</li>
           </ul>
         </div>
       </section>
