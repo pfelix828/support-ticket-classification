@@ -4,6 +4,7 @@ import { Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { Nav } from "../components/layout/nav";
+import { Disclaimer } from "../components/layout/disclaimer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,7 +41,10 @@ export default function RootLayout({
     >
       <body className="min-h-full flex" style={{ backgroundColor: "#fcfbf7", color: "#1a1917" }}>
         <Nav />
-        <main className="flex-1 ml-60 min-h-screen">{children}</main>
+        <main className="flex-1 ml-60 min-h-screen">
+          <Disclaimer />
+          {children}
+        </main>
         <Analytics />
       </body>
     </html>
