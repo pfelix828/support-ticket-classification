@@ -266,6 +266,76 @@ export default function DistillationPage() {
         </div>
       </section>
 
+      {/* Why it failed */}
+      <section className="px-12 pb-8">
+        <div className="rounded-lg border p-6" style={{ backgroundColor: "var(--background-card)", borderColor: "var(--border)" }}>
+          <h2 className="text-sm font-medium mb-3" style={{ color: "var(--foreground-secondary)" }}>
+            Why Our Distillation Underperformed — and What Would Fix It
+          </h2>
+          <p className="text-xs mb-4 leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
+            The core issue: we used o4-mini (a mid-tier model) as the teacher. o4-mini classifying these
+            tickets zero-shot is roughly ~85-87% accurate — comparable to our classical baselines. Fine-tuning
+            GPT-4o-mini on those labels produces a student that&apos;s slightly worse than its teacher, landing at ~80%.
+            This is distilling sideways, not downward.
+          </p>
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <h3 className="text-xs font-medium mb-2 uppercase tracking-wide" style={{ color: "var(--error)" }}>What we did</h3>
+              <div className="space-y-2">
+                <div className="p-3 rounded" style={{ backgroundColor: "var(--background-secondary)" }}>
+                  <p className="text-xs" style={{ color: "var(--foreground-secondary)" }}>
+                    <strong>Teacher:</strong> o4-mini (zero-shot, ~85-87% accuracy)
+                  </p>
+                  <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>
+                    Mid-tier model with no task-specific training. Roughly the same capability as the student.
+                  </p>
+                </div>
+                <div className="p-3 rounded" style={{ backgroundColor: "var(--background-secondary)" }}>
+                  <p className="text-xs" style={{ color: "var(--foreground-secondary)" }}>
+                    <strong>Student:</strong> GPT-4o-mini → 79.8% F1
+                  </p>
+                  <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>
+                    Learned from noisy labels. Can&apos;t exceed the teacher&apos;s accuracy ceiling.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-xs font-medium mb-2 uppercase tracking-wide" style={{ color: "var(--success)" }}>What would work</h3>
+              <div className="space-y-2">
+                <div className="p-3 rounded" style={{ backgroundColor: "var(--background-secondary)" }}>
+                  <p className="text-xs" style={{ color: "var(--foreground-secondary)" }}>
+                    <strong>Teacher:</strong> Frontier model (o1, Claude Opus) — 95%+ accuracy
+                  </p>
+                  <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>
+                    A model that&apos;s genuinely more capable than the student. Much better at nuanced category
+                    boundaries. More expensive per token, but used offline in batch — a one-time cost.
+                  </p>
+                </div>
+                <div className="p-3 rounded" style={{ backgroundColor: "var(--background-secondary)" }}>
+                  <p className="text-xs" style={{ color: "var(--foreground-secondary)" }}>
+                    <strong>Expected student:</strong> GPT-4o-mini → ~93-96% F1
+                  </p>
+                  <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>
+                    With 95%+ accurate teacher labels, the student should approach standard fine-tuning levels —
+                    without needing any human labeling. That&apos;s the real promise of distillation.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 p-4 rounded-lg" style={{ backgroundColor: "var(--background-secondary)" }}>
+            <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-secondary)" }}>
+              <strong style={{ color: "var(--foreground)" }}>The lesson:</strong> Distillation is only as good as the teacher.
+              Using a mid-tier model to teach a mid-tier model is distilling sideways — the student has nothing
+              to learn that it couldn&apos;t figure out on its own. The value of distillation comes from compressing
+              a frontier model&apos;s intelligence into a fast, cheap production model. Our experiment demonstrates
+              the failure mode; a production implementation with o1 or equivalent would demonstrate the promise.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Takeaways */}
       <section className="px-12 pb-16">
         <div className="rounded-lg p-6" style={{ backgroundColor: "var(--accent-muted)" }}>
