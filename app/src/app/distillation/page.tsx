@@ -18,14 +18,14 @@ export default function DistillationPage() {
       <section className="px-12 pb-4">
         <div className="rounded-lg border p-4" style={{ backgroundColor: "rgba(196, 112, 90, 0.08)", borderColor: "var(--error)" }}>
           <p className="text-sm font-medium mb-1" style={{ color: "var(--error)" }}>
-            Distillation underperformed with only 855 training examples
+            Distillation underperformed standard fine-tuning — even at scale
           </p>
           <p className="text-xs leading-relaxed" style={{ color: "var(--foreground-secondary)" }}>
-            The distilled model (o1-mini → GPT-4o-mini) achieved 69.9% F1 — below even zero-shot (77.7%).
-            With only 855 labeled examples from the teacher model, there wasn&apos;t enough training signal for effective
-            knowledge transfer. This result illustrates a key finding: distillation requires substantially more
-            teacher-labeled data (typically 5K-50K examples) to outperform simpler methods. The pipeline and methodology
-            described below remain sound — the bottleneck was data volume, not architecture.
+            We ran distillation twice. With 855 o1-mini teacher labels: 69.9% F1. With 7,358 o4-mini teacher labels: 78.9% F1.
+            Both are well below standard fine-tuning on human labels (96.1% F1 at 9,557 examples). The bottleneck is
+            label quality, not volume — the teacher model&apos;s ~13% error rate on label parsing compounds during training.
+            The student can&apos;t outperform its teacher. In our implementation, distillation offers no advantage over
+            standard fine-tuning when accurate human labels are available.
           </p>
         </div>
       </section>
@@ -34,10 +34,10 @@ export default function DistillationPage() {
       <section className="px-12 pb-8">
         <div className="grid grid-cols-4 gap-3">
           {[
-            { label: "F1 (macro) — measured", value: "69.9%" },
-            { label: "Training examples", value: "855" },
-            { label: "vs. zero-shot", value: "-7.8pt" },
-            { label: "Verdict", value: "Needs more data" },
+            { label: "F1 — 855 teacher labels", value: "69.9%" },
+            { label: "F1 — 7,358 teacher labels", value: "78.9%" },
+            { label: "F1 — standard FT (human labels)", value: "96.1%" },
+            { label: "Verdict", value: "Label quality > volume" },
           ].map((s) => (
             <div key={s.label} className="rounded-lg border p-4" style={{ backgroundColor: "var(--background-card)", borderColor: "var(--border)" }}>
               <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>{s.value}</p>
@@ -194,7 +194,7 @@ export default function DistillationPage() {
               </thead>
               <tbody>
                 {[
-                  { dim: "F1 (macro)", xgb: "86.3%", bert: "91.2%", ft: "96.1%", distill: "69.9% (855 ex.) → projected 90%+ at scale" },
+                  { dim: "F1 (macro)", xgb: "86.3%", bert: "91.2%", ft: "96.1%", distill: "78.9% (7,358 teacher labels)" },
                   { dim: "Boundary cases", xgb: "Weak", bert: "Moderate", ft: "Strong", distill: "Strong (inherits from teacher)" },
                   { dim: "New product types", xgb: "Poor", bert: "Poor", ft: "Moderate", distill: "Strong" },
                   { dim: "Context window", xgb: "N/A", bert: "512 tokens", ft: "128K", distill: "128K" },
@@ -272,10 +272,10 @@ export default function DistillationPage() {
             Key Takeaways
           </h3>
           <ul className="space-y-2 text-sm" style={{ color: "var(--foreground-secondary)" }}>
-            <li><strong>855 teacher labels weren&apos;t enough.</strong> At 69.9% F1, the distilled model underperformed even zero-shot (77.7%). Distillation needs a critical mass of teacher-labeled data to transfer knowledge effectively.</li>
-            <li>The architecture is sound — the bottleneck was data volume. With 5K-50K o1-labeled examples (feasible via Batch API at ~$50-200), distillation is expected to match or exceed standard fine-tuning.</li>
-            <li>This is a real finding, not a failure: it quantifies the minimum viable dataset for distillation and shows that cheap shortcuts (855 examples) don&apos;t work.</li>
-            <li>At OpenAI with internal o1 access, generating 50K labeled examples is a batch job away. At any other company, the o1 inference cost for teacher labeling makes this more expensive to bootstrap.</li>
+            <li><strong>More teacher data helped, but didn&apos;t close the gap.</strong> 855 labels → 69.9%. 7,358 labels → 78.9%. But standard fine-tuning on 9,557 human labels hit 96.1%. The teacher&apos;s label quality is the ceiling.</li>
+            <li><strong>Label quality matters more than method.</strong> The o4-mini teacher had ~13% label errors (parsing failures + misclassifications). Those errors compound during fine-tuning — the student inherits the teacher&apos;s mistakes.</li>
+            <li><strong>Distillation&apos;s real value is when you have no human labels at all.</strong> If you can&apos;t label data manually, teacher-generated labels (78.9%) still beat zero-shot (77.7%) and approach classical methods. But if accurate human labels exist, standard fine-tuning wins decisively.</li>
+            <li>A production implementation could improve on this by using a more capable teacher (o1 vs o4-mini), better parsing to reduce label errors, and including chain-of-thought reasoning in the training data.</li>
           </ul>
         </div>
       </section>

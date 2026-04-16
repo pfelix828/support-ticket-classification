@@ -61,7 +61,7 @@ const sections = [
     icon: Zap,
     title: "Distillation (o1 → 4o-mini)",
     description:
-      "Use o1 as a reasoning teacher, distill into GPT-4o-mini. With only 855 teacher labels, 69.9% F1 — proving distillation needs scale. The architecture is sound; the data volume wasn't.",
+      "Use a reasoning model as teacher, distill into GPT-4o-mini. Even with 7,358 teacher labels: 78.9% F1 — well below standard fine-tuning (96.1%). Label quality matters more than method.",
   },
   {
     href: "/comparison",

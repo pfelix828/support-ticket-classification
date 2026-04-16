@@ -686,26 +686,27 @@
     "eval_size": 2390
   },
   "distilled": {
-    "method": "GPT-4o-mini Distillation FT",
-    "f1_macro": 0.6993,
-    "f1_weighted": 0.7025,
+    "method": "GPT-4o-mini Distillation FT (7,358 teacher labels)",
+    "f1_macro": 0.7892,
+    "f1_weighted": 0.7833,
     "per_class_f1": {
-      "account_access": 0.8015,
-      "account_management": 0.6069,
-      "api_errors": 0.6348,
-      "api_usage": 0.5792,
-      "billing": 0.7733,
-      "chatgpt_apps": 0.8036,
-      "chatgpt_product": 0.7546,
-      "enterprise": 0.716,
-      "gpts": 0.8118,
-      "newer_products": 0.3805,
-      "privacy_policy": 0.805,
-      "security": 0.7249
+      "account_access": 0.804,
+      "account_management": 0.672,
+      "api_errors": 0.7221,
+      "api_usage": 0.7098,
+      "billing": 0.8233,
+      "chatgpt_apps": 0.827,
+      "chatgpt_product": 0.7663,
+      "enterprise": 0.7176,
+      "gpts": 0.8954,
+      "newer_products": 0.9049,
+      "privacy_policy": 0.8278,
+      "security": 0.8
     },
-    "unknown_count": 2,
+    "unknown_count": 0,
     "eval_size": 2390,
-    "model_id": "ft:gpt-4o-mini-2024-07-18:pfelix:distilled:DUlToc5G"
+    "model_id": "ft:gpt-4o-mini-2024-07-18:pfelix::DV2G3Ve1",
+    "label_count": 7358
   },
   "finetuned": {
     "method": "GPT-4o-mini Standard FT",
