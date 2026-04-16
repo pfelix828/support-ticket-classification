@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm run build --prefix app",
+  "installCommand": "npm ci --prefix app",
+  "outputDirectory": "app/.next"
+}
