@@ -1,6 +1,5 @@
 {
-  "buildCommand": "cd app && npm run build",
-  "installCommand": "cd app && npm ci",
+  "buildCommand": "npm run build",
   "outputDirectory": "app/.next",
   "public": "app/public"
 }
