@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   Home,
   Database,
@@ -16,6 +17,8 @@ import {
   Network,
   FileText,
   BookOpen,
+  Menu,
+  X,
 } from "lucide-react";
 
 interface NavEntry {
@@ -47,99 +50,142 @@ const navItems: NavEntry[] = [
 
 export function Nav() {
   const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
-    <nav className="fixed left-0 top-0 h-full w-60 border-r flex flex-col"
-      style={{
-        backgroundColor: "var(--background-secondary)",
-        borderColor: "var(--border)",
-      }}
-    >
-      {/* Logo / Title */}
-      <div className="p-5 border-b" style={{ borderColor: "var(--border)" }}>
-        <Link href="/" className="block">
-          <h1 className="text-sm font-semibold tracking-wide uppercase"
+    <>
+      {/* Mobile hamburger — only shown below md */}
+      <button
+        type="button"
+        aria-label="Open navigation"
+        onClick={() => setMobileOpen(true)}
+        className="md:hidden fixed top-3 left-3 z-40 p-2 rounded-md border"
+        style={{
+          backgroundColor: "var(--background-secondary)",
+          borderColor: "var(--border)",
+          color: "var(--foreground-secondary)",
+        }}
+      >
+        <Menu size={20} />
+      </button>
+
+      {/* Mobile backdrop */}
+      {mobileOpen && (
+        <div
+          className="md:hidden fixed inset-0 z-40 bg-black/40"
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      <nav
+        className={`fixed left-0 top-0 h-full w-60 border-r flex-col z-50 transition-transform duration-200 ease-out
+          ${mobileOpen ? "flex translate-x-0" : "flex -translate-x-full"}
+          md:flex md:translate-x-0`}
+        style={{
+          backgroundColor: "var(--background-secondary)",
+          borderColor: "var(--border)",
+        }}
+      >
+        {/* Logo / Title */}
+        <div className="p-5 border-b flex items-center justify-between" style={{ borderColor: "var(--border)" }}>
+          <Link href="/" className="block">
+            <h1 className="text-sm font-semibold tracking-wide uppercase"
+              style={{ color: "var(--foreground-secondary)" }}
+            >
+              Support Ticket
+            </h1>
+            <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>
+              Classification
+            </p>
+          </Link>
+          <button
+            type="button"
+            aria-label="Close navigation"
+            onClick={() => setMobileOpen(false)}
+            className="md:hidden p-1 rounded"
             style={{ color: "var(--foreground-secondary)" }}
           >
-            Support Ticket
-          </h1>
-          <p className="text-xs mt-1" style={{ color: "var(--foreground-muted)" }}>
-            Classification
-          </p>
-        </Link>
-      </div>
-
-      {/* Navigation Items */}
-      <div className="flex-1 overflow-y-auto py-3 px-3">
-        {navItems.map((item) => {
-          if (item.separator) {
-            return (
-              <div key={`sep-${item.label}`} className="mt-3 mb-2 px-3">
-                <p className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--foreground-muted)", fontSize: "10px" }}>
-                  {item.label}
-                </p>
-              </div>
-            );
-          }
-          const Icon = item.icon!;
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.href}
-              href={item.href!}
-              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors mb-0.5"
-              style={{
-                color: isActive ? "var(--foreground)" : "var(--foreground-secondary)",
-                backgroundColor: isActive ? "var(--accent-muted)" : "transparent",
-              }}
-            >
-              <Icon
-                size={16}
-                style={{
-                  color: isActive ? "var(--accent)" : "var(--foreground-muted)",
-                }}
-              />
-              {item.label}
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* Footer */}
-      <div className="p-4 border-t" style={{ borderColor: "var(--border)" }}>
-        <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>
-          Built by{" "}
-          <a
-            href="https://pfelix828.github.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline transition-colors"
-            style={{ color: "var(--chart-1)" }}
-          >
-            Philip Felix
-          </a>
-        </p>
-        <div className="flex gap-3 mt-2">
-          <a
-            href="https://github.com/pfelix828"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs underline"
-            style={{ color: "var(--foreground-muted)" }}
-          >
-            GitHub
-          </a>
-          <a
-            href="https://www.linkedin.com/in/pfelix1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs underline"
-            style={{ color: "var(--foreground-muted)" }}
-          >
-            LinkedIn
-          </a>
+            <X size={18} />
+          </button>
         </div>
-      </div>
-    </nav>
+
+        {/* Navigation Items */}
+        <div className="flex-1 overflow-y-auto py-3 px-3">
+          {navItems.map((item) => {
+            if (item.separator) {
+              return (
+                <div key={`sep-${item.label}`} className="mt-3 mb-2 px-3">
+                  <p className="text-xs font-medium uppercase tracking-wide" style={{ color: "var(--foreground-muted)", fontSize: "10px" }}>
+                    {item.label}
+                  </p>
+                </div>
+              );
+            }
+            const Icon = item.icon!;
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href!}
+                className="flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors mb-0.5"
+                style={{
+                  color: isActive ? "var(--foreground)" : "var(--foreground-secondary)",
+                  backgroundColor: isActive ? "var(--accent-muted)" : "transparent",
+                }}
+              >
+                <Icon
+                  size={16}
+                  style={{
+                    color: isActive ? "var(--accent)" : "var(--foreground-muted)",
+                  }}
+                />
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Footer */}
+        <div className="p-4 border-t" style={{ borderColor: "var(--border)" }}>
+          <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>
+            Built by{" "}
+            <a
+              href="https://pfelix828.github.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline transition-colors"
+              style={{ color: "var(--chart-1)" }}
+            >
+              Philip Felix
+            </a>
+          </p>
+          <div className="flex gap-3 mt-2">
+            <a
+              href="https://github.com/pfelix828"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs underline"
+              style={{ color: "var(--foreground-muted)" }}
+            >
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/pfelix1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs underline"
+              style={{ color: "var(--foreground-muted)" }}
+            >
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }

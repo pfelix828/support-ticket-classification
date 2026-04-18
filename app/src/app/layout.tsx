@@ -41,7 +41,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex" style={{ backgroundColor: "#fcfbf7", color: "#1a1917" }}>
         <Nav />
-        <main className="flex-1 ml-60 min-h-screen">
+        <main className="flex-1 md:ml-60 min-h-screen pt-14 md:pt-0">
           <Disclaimer />
           {children}
         </main>
